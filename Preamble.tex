@@ -1,0 +1,828 @@
+%\usepackage[fleqn]{amsmath}
+\usepackage{amssymb,graphicx,color,graphicx,slashed, microtype, parskip, enumitem, extarrows, needspace}
+\usepackage[top=1.7cm, bottom=1.5cm, right=2.0cm, left=2.0cm, heightrounded, marginparwidth=5cm, marginparsep=0.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% \usepackage{mathpazo}
+\usepackage{amsfonts}
+\usepackage{amsmath,amscd}
+\usepackage{geometry}
+\usepackage{mathrsfs}
+\usepackage{lmodern}
+% \usepackage{fourier}
+% \usepackage{ccfonts}
+\usepackage[T1]{fontenc}
+% \usepackage{antpolt}
+% \usepackage{utopia}
+% \usepackage{PTSerif}
+\usepackage{cite}
+\usepackage{changepage}
+\usepackage{marvosym}
+\usepackage{manfnt}
+\usepackage{framed}
+\usepackage{multirow}
+\usepackage{etoc}
+% \usepackage{ctex} % Chinese 
+
+% \geometry{
+	% paper=a4paper,
+	% top=3cm,
+	% inner=2.54cm,
+	% outer=2.54cm,
+	% bottom=3cm,
+	% headheight=5ex,
+	% headsep=5ex,
+% }
+\usepackage[margin=1.5in]{geometry}
+\hbadness = 10000
+\hfuzz=100pt 
+\usepackage{marginnote}
+\renewcommand*{\marginfont}{\footnotesize}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=NavyBlue, bookmarksdepth=3, citecolor=ForestGreen, linkcolor=black}
+\makeatletter\newcommand{\@minipagerestore}{\setlength{\parskip}{\medskipamount}}\makeatother
+\usepackage{titletoc}
+\titlecontents{section}[3em]{}{\bf\contentslabel{2.33em}}{}{\,\titlerule*[0.5pc]{$\cdot$}\contentspage}[\vspace{1.1ex}]
+\newcommand{\intro}[1]{\rightline{\parbox[t]{5cm}{\footnotesize \fangsong\quad\quad #1 }}}
+% \renewcommand{\thesection}{\S\arabic{section}}
+% =============== Index ===========================
+\usepackage[nonewpage]{imakeidx}
+\makeindex
+% =============== Color Definitions ===============
+\usepackage[svgnames]{xcolor}
+\colorlet{ColorTitle}{Black}
+\colorlet{ColorSectionName}{Black}
+\colorlet{ColorBoxFG}{Gray}
+\colorlet{ColorBoxText}{Black}
+\colorlet{ColorBoxBG}{White}
+\definecolor{browna}{RGB}{16, 17, 131}
+% \definecolor{brownb}{RGB}{16,0.69,0.65}
+\definecolor{bluea}{RGB}{53, 90, 142}
+\definecolor{mygray}{RGB}{175, 176, 178}
+\definecolor{mygreen}{RGB}{230, 230, 230}
+\definecolor{myblue}{RGB}{190, 192, 191}
+\definecolor{myGreen}{RGB}{68, 128, 130}
+\definecolor{myexamplebg}{RGB}{244,251,248}
+\definecolor{myexamplefr}{RGB}{166, 219, 214}
+\definecolor{myexampleti}{RGB}{69, 131, 134}
+% =============== Title Style ===============
+% \usepackage{titling} % Allows custom title configuration
+% \newcommand{\HorRule}{\color{ColorTitle}\rule{\linewidth}{1pt}} % Defines the gold horizontal rule around the title
+% \pretitle{
+%     \vspace{-50pt} % Move the entire title section up
+%     \HorRule\vspace{9pt} % Horizontal rule before the title
+%     \fontsize{27}{36}\usefont{OT1}{phv}{b}{n}\selectfont
+%     \color{ColorTitle} % Text colour for the title and author(s)
+% }
+% \posttitle{\par\vskip 15pt} % Whitespace under the title
+% \preauthor{\fontsize{17}{0}\usefont{OT1}{phv}{m}{n}\selectfont\color{ColorTitle}} % Anything that will appear before \author is printed
+% \postauthor{\par\HorRule}
+% \newcommand{\COURSENAME}{\textcolor{black}{Abstract Algebra 2023}}
+% % \newcommand{\COURSENAME}{\href{http://phyw.people.ust.hk/teaching/PHYS2022-2015/}{\textcolor{black}{Algebra 2023}}}
+% \newcommand{\HTG}{\textcolor{black}{H.-T.~Guo}}
+% % \newcommand{\PHYS}{\href{https://lxy.njupt.edu.cn/}{\textcolor{black}{School of Electronic Engineering}}}
+% \newcommand{\PHYS}{\href{https://lxy.njupt.edu.cn/}{\textcolor{black}{School of Science}}}
+% \newcommand{\NJUPT}{\href{https://www.njupt.edu.cn/}{\textcolor{black}{NJUPT}}}
+% \author{\COURSENAME, \HTG, \PHYS, \NJUPT}
+% \date{}
+% =============== Section Name Style ===============
+\usepackage{titlesec}
+\titleformat{\section}
+    {\fontsize{15}{20}\usefont{OT1}{phv}{b}{n}\color{ColorSectionName}}
+    {\thesection}{1em}{}
+    [{\vspace{0.2cm}\titlerule[0.8pt]}]
+\titleformat{\subsection}
+    {\fontsize{14}{20}\usefont{OT1}{phv}{m}{n}\color{ColorSectionName}}
+    {\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+    {\fontsize{12}{20}\usefont{OT1}{phv}{m}{n}\color{ColorSectionName}}
+    {}{0em}{}
+\setcounter{secnumdepth}{4}
+
+%customise the section titles
+% \titleformat{\section}[block]
+%   {\normalfont\fontsize{20.74}{16}\scshape\filcenter}{\thesection}{1em}{}
+% \titleformat{\subsection}
+%   {\normalfont\fontsize{14}{12}\scshape}{\thesubsection}{1em}{}
+% \titleformat{\subsubsection}
+%   {\normalfont\fontsize{12}{9}\scshape}{\thesubsubsection}{1em}{}
+
+% =============== Box Style ===============
+\usepackage[most]{tcolorbox}
+\newtcolorbox{tbox}[1]{
+    colback=ColorBoxBG, colframe=ColorBoxFG, coltext=ColorBoxText,
+    sharp corners, enhanced, breakable, parbox=false,
+    before skip=1em, after skip=1em,
+    title={#1}, fonttitle=\usefont{OT1}{phv}{b}{n}, 
+    attach boxed title to top left={yshift=-0.1mm}, boxed title style={sharp corners, colback=ColorBoxFG, left=0.405cm},
+    rightrule=-1pt,toprule=-1pt, bottomrule=-1pt
+}
+\newtcolorbox{mtbox}[1]{
+    colback=ColorBoxBG, colframe=ColorBoxFG, coltext=ColorBoxText,
+    sharp corners, enhanced, breakable, parbox=false,
+    before skip=1em, after skip=1em,
+    title={#1}, fonttitle=\usefont{OT1}{phv}{b}{n},
+    attach boxed title to top left={yshift=-0.1mm}, boxed title style={sharp corners, colback=ColorBoxFG, left=0.15cm},
+    rightrule=-1pt,toprule=-1pt, bottomrule=-1pt, 
+    left=0.5em
+}
+
+% =============== tikz has to be loaded after xcolor
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\newcommand*\enumlabel[1]{\tikz[baseline=(char.base)]{
+			\node[shape=rectangle,inner sep=2pt,fill=ColorBoxFG] (char) 
+			{\fontsize{7}{20}\usefont{OT1}{phv}{b}{n}{\textcolor{ColorBoxBG}{#1}}};}}
+% =============== Useful shortcuts ===============
+\newcommand\wref[1]{{\hypersetup{linkcolor=white}\ref{#1}}}  
+\newcommand{\textbox}[2]{
+    \begin{tbox}{#1}
+        #2
+    \end{tbox}
+}
+\newcommand{\mtextbox}[2]{\marginnote{
+    \begin{mtbox}{#1}
+        #2
+    \end{mtbox}}
+}
+\newcommand{\mnewline}{\vspace{0.5em}\newline}
+\newcommand{\titem}[1]{
+    \begin{itemize}[label=\color{ColorBoxFG}$\blacktriangleright$, leftmargin=0mm, labelsep=0.27cm, topsep=0.5em
+        %, itemsep=1ex
+        ]
+        #1
+    \end{itemize}
+}
+\newcommand{\mtitem}[1]{
+    \begin{itemize}[label={\color{ColorBoxFG}$\blacktriangleright$}, leftmargin=0mm, labelsep=1mm, topsep=0.5em
+        %, itemsep=1ex
+        ]
+        #1
+    \end{itemize}
+}
+\newcommand{\itembox}[3]{
+    \begin{tbox}{#1}
+        #2
+        \titem{#3}
+    \end{tbox}
+}
+\newcommand{\mitembox}[3]{
+    \marginnote{
+    \begin{mtbox}{#1}
+        #2
+        \mtitem{#3}
+	\end{mtbox}
+    }
+}
+\newcommand{\tenum}[1]{
+    \begin{enumerate}[label=\protect\enumlabel{\arabic*}, leftmargin=0mm, labelsep=0.265cm, topsep=0.5em
+        %, itemsep=1ex
+        ]
+        #1
+    \end{enumerate}
+}
+
+\newcommand{\enumbox}[3]{
+    \begin{tbox}{#1}
+        #2
+        \tenum{#3}
+    \end{tbox}
+}
+
+\newcommand{\twocol}[5]{
+    \begin{minipage}[t][][b]
+        {#1\textwidth}
+        #4        
+    \end{minipage}
+    \hspace{#2\textwidth}
+    \begin{minipage}[t][][b]
+        {#3\textwidth}
+        #5
+    \end{minipage}
+}
+
+\newcommand{\cg}[2]{
+    \begin{center}
+        \includegraphics[width=#1\textwidth]{#2}
+    \end{center}
+}
+\newcommand{\tbar}{
+    ~\newline
+    {\color{ColorBoxFG}
+    \hbox to 0.15\textwidth{\leaders\hbox to 5pt{\hss  \hss}\hfil} 
+    \hbox to 0.7\textwidth{\leaders\hbox to 5pt{\hss . \hss}\hfil}}
+    \mnewline
+}
+%----------------------------------------------------------------------------------------
+%	Basic Math Notation Definition
+%----------------------------------------------------------------------------------------
+% Some commands that I am used to.
+% Well-known algebraic structures
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\CC}{\ensuremath{\mathbb{C}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\A}{\ensuremath{\mathbb{A}}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+
+% Algebra
+
+\newcommand{\gr}{\operatorname{gr}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\topwedge}{\ensuremath{\bigwedge^{\mathrm{max}}}}
+\newcommand{\rank}{\operatorname{rk}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\Isom}{\operatorname{Isom}}
+\newcommand{\Hm}{\operatorname{H}}  % Homology/cohomology
+\newcommand{\Tr}{\operatorname{Tr}}	% trace
+\newcommand{\Nm}{\operatorname{N}}	% norm
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\Resprod}{\ensuremath{{\prod}'}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\ord}{\operatorname*{ord}}
+\newcommand{\trdeg}{\operatorname{tr.deg}}
+\newcommand{\Gras}{\ensuremath{\mathbf{G}}}	% Grassmannians
+\newcommand{\WittV}{\operatorname{W}}	% Witt vectors
+
+% Analysis
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\newcommand{\champ}[1]{\ensuremath{\frac{\partial}{\partial #1}}}
+\newcommand{\norme}[1]{\ensuremath{\| #1 \|}}
+\newcommand{\normeL}[2]{\ensuremath{\| #2 \|_{L^{#1}}}}
+\newcommand{\normeLs}[3]{\ensuremath{\| #3 \|_{L^{#1}, #2}}}
+
+% General things...
+\newcommand{\ceil}[1]{\ensuremath{\lceil #1 \rceil}}
+\newcommand{\lrangle}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+\newcommand{\mes}{\operatorname{vol}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\Stab}{\operatorname{Stab}}
+\newcommand{\pr}{\ensuremath{\mathbf{pr}}} % projection morphism
+
+% Categorical Terms (in my view)
+\newcommand{\Obj}{\operatorname{Ob}}	% Objects
+\newcommand{\Mor}{\operatorname{Mor}}	% Morphisms
+\newcommand{\cate}[1]{\ensuremath{\mathsf{#1}}}	% Font series for categories
+\newcommand{\dcate}[1]{\ensuremath{\text{-}\mathsf{#1}}}	% Categories with a pre-dash
+\newcommand{\cated}[1]{\ensuremath{\mathsf{#1}\text{-}}}	% Categories with a post-dash
+\newcommand{\identity}{\ensuremath{\mathrm{id}}}
+\newcommand{\prolim}{\ensuremath{\underleftarrow{\lim}}}
+\newcommand{\indlim}{\ensuremath{\underrightarrow{\lim}}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\iHom}{\ensuremath{\EuScript{H}\mathrm{om}}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\rightiso}{\ensuremath{\stackrel{\sim}{\rightarrow}}}
+\newcommand{\longrightiso}{\ensuremath{\stackrel{\sim}{\longrightarrow}}}
+\newcommand{\leftiso}{\ensuremath{\stackrel{\sim}{\leftarrow}}}
+\newcommand{\longleftiso}{\ensuremath{\stackrel{\sim}{\longleftarrow}}}
+\newcommand{\utimes}[1]{\ensuremath{\overset{#1}{\times}}}
+\newcommand{\dtimes}[1]{\ensuremath{\underset{#1}{\times}}}
+\newcommand{\dotimes}[1]{\ensuremath{\underset{#1}{\otimes}}}
+\newcommand{\dsqcup}[1]{\ensuremath{\underset{#1}{\sqcup}}}
+\newcommand{\munit}{\ensuremath{\mathbf{1}}} % unit in a monoidal category
+\newcommand{\Yinjlim}{\ensuremath{\text{\textquotedblleft}\varinjlim\text{\textquotedblright}}} % injective limit in the Yoneda category
+\newcommand{\Yprojlim}{\ensuremath{\text{\textquotedblleft}\varprojlim\text{\textquotedblright}}} % projective limit in the Yoneda category
+
+% Homological Algebra
+\newcommand{\Ker}{\operatorname{ker}}
+\newcommand{\Coker}{\operatorname{coker}}
+\newcommand{\Image}{\operatorname{im}}
+\newcommand{\Coim}{\operatorname{coim}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\otimesL}{\ensuremath{\overset{\mathrm{L}}{\otimes}}}
+
+% Geometry
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\Lie}{\operatorname{Lie}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\ad}{\operatorname{ad}}
+\newcommand{\Frob}{\operatorname{Fr}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\MaxSpec}{\operatorname{MaxSpec}}
+\newcommand{\PP}{\ensuremath{\mathbb{P}}}
+\newcommand{\mult}{\operatorname{mult}}
+\newcommand{\divisor}{\operatorname{div}}
+\newcommand{\Gm}{\ensuremath{\mathbb{G}_\mathrm{m}}}
+\newcommand{\Ga}{\ensuremath{\mathbb{G}_\mathrm{a}}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Res}{\operatorname{Res}}
+
+% Groups
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\SO}{\operatorname{SO}}
+\newcommand{\Or}{\operatorname{O}}
+\newcommand{\GSpin}{\operatorname{GSpin}}
+\newcommand{\Spin}{\operatorname{Spin}}
+\newcommand{\UU}{\operatorname{U}}
+\newcommand{\SU}{\operatorname{SU}}
+\newcommand{\PGL}{\operatorname{PGL}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Sp}{\operatorname{Sp}}
+\newcommand{\GSp}{\operatorname{GSp}}
+\newcommand{\PSp}{\operatorname{PSp}}
+\newcommand{\gl}{\ensuremath{\mathfrak{gl}}}
+\newcommand{\sli}{\ensuremath{\mathfrak{sl}}}
+\newcommand{\so}{\ensuremath{\mathfrak{so}}}
+\newcommand{\spin}{\ensuremath{\mathfrak{spin}}}
+\newcommand{\syp}{\ensuremath{\mathfrak{sp}}}
+\newcommand{\Ind}{\operatorname{Ind}}
+
+%----------------------------------------------------------------------------------------
+%	Arrow Definition
+%----------------------------------------------------------------------------------------
+% 以下用 tikz 定义可伸缩箭头, 不用 amsmath 和 extarrows 的版本以免 unicode-math 产生问题. 代码借自 Antal Spector-Zabusky
+% 重定义 \xrightarrow[below]{above}
+\makeatletter
+\newbox\xratbelow
+\newbox\xratabove
+\renewcommand{\xrightarrow}[2][]{%
+	\setbox\xratbelow=\hbox{\ensuremath{\scriptstyle #1}}%
+	\setbox\xratabove=\hbox{\ensuremath{\scriptstyle #2}}%
+	\pgfmathsetlengthmacro{\xratlen}{max(\wd\xratbelow, \wd\xratabove) + .6em}%
+	\mathrel{\tikz [->, baseline=-.75ex]
+		\draw (0,0) -- node[below=-2pt] {\box\xratbelow}
+		node[above] {\box\xratabove}
+		(\xratlen,0) ;}}
+% 重定义 \xlefttarrow[below]{above}
+\renewcommand{\xleftarrow}[2][]{%
+	\setbox\xratbelow=\hbox{\ensuremath{\scriptstyle #1}}%
+	\setbox\xratabove=\hbox{\ensuremath{\scriptstyle #2}}%
+	\pgfmathsetlengthmacro{\xratlen}{max(\wd\xratbelow, \wd\xratabove) + .6em}%
+	\mathrel{\tikz [<-, baseline=-.75ex]
+		\draw (0,0) -- node[below] {\box\xratbelow}
+		node[above] {\box\xratabove}
+		(\xratlen,0) ;}}
+% 重定义 \xleftrightarrow[below]{above}
+\renewcommand{\xleftrightarrow}[2][]{%
+	\setbox\xratbelow=\hbox{\ensuremath{\scriptstyle #1}}%
+	\setbox\xratabove=\hbox{\ensuremath{\scriptstyle #2}}%
+	\pgfmathsetlengthmacro{\xratlen}{max(\wd\xratbelow, \wd\xratabove) + .6em}%
+	\mathrel{\tikz [<->, baseline=-.75ex]
+		\draw (0,0) -- node[below] {\box\xratbelow}
+		node[above] {\box\xratabove}
+		(\xratlen,0) ;}}
+% 重定义 \xhookrightarrow[below]{above}, 使用 tikz-cd 的 hookrightarrow
+\renewcommand{\xhookrightarrow}[2][]{%
+	\setbox\xratbelow=\hbox{\ensuremath{\scriptstyle #1}}%
+	\setbox\xratabove=\hbox{\ensuremath{\scriptstyle #2}}%
+	\pgfmathsetlengthmacro{\xratlen}{max(\wd\xratbelow, \wd\xratabove) + .6em}%
+	\mathrel{\tikz [baseline=-.75ex]
+		\draw (0,0) edge[commutative diagrams/hookrightarrow] node[below] {\box\xratbelow}
+		node[above] {\box\xratabove}
+		(\xratlen,0) ;}}
+% 重定义 \xhooklefttarrow[below]{above}, 使用 tikz-cd 的 hookleftarrow
+\renewcommand{\xhookleftarrow}[2][]{%
+	\setbox\xratbelow=\hbox{\ensuremath{\scriptstyle #1}}%
+	\setbox\xratabove=\hbox{\ensuremath{\scriptstyle #2}}%
+	\pgfmathsetlengthmacro{\xratlen}{max(\wd\xratbelow, \wd\xratabove) + .6em}%
+	\mathrel{\tikz [baseline=-.75ex]
+		\draw (0,0) edge[commutative diagrams/hookleftarrow] node[below] {\box\xratbelow}
+		node[above] {\box\xratabove}
+		(\xratlen,0) ;}}
+
+% 重定义 \xmapsto[below]{above}, 使用 tikz-cd 的 mapsto
+\renewcommand{\xmapsto}[2][]{%
+	\setbox\xratbelow=\hbox{\ensuremath{\scriptstyle #1}}%
+	\setbox\xratabove=\hbox{\ensuremath{\scriptstyle #2}}%
+	\pgfmathsetlengthmacro{\xratlen}{max(\wd\xratbelow, \wd\xratabove) + .6em}%
+	\mathrel{\tikz [baseline=-.75ex]
+		\draw (0,0) edge[commutative diagrams/mapsto] node[below] {\box\xratbelow}
+		node[above] {\box\xratabove}
+		(\xratlen,0) ;}}
+
+% 定义 \xlongequal[below]{above}, 使用 tikz-cd 的等号
+\newcommand{\xlongequal}[2][]{%
+	\setbox\xratbelow=\hbox{\ensuremath{\scriptstyle #1}}%
+	\setbox\xratabove=\hbox{\ensuremath{\scriptstyle #2}}%
+	\pgfmathsetlengthmacro{\xratlen}{max(\wd\xratbelow, \wd\xratabove) + .6em}%
+	\mathrel{\tikz [baseline=-.75ex]
+		\draw (0,0) edge[commutative diagrams/equal] node[below] {\box\xratbelow}
+		node[above] {\box\xratabove}
+		(\xratlen,0) ;}}
+\makeatother
+
+%----------------------------------------------------------------------------------------
+%	Definition
+%----------------------------------------------------------------------------------------
+\usepackage[theorems]{tcolorbox}
+\newtcbtheorem[number within=section]%
+{Definition} % \begin..
+{Definition} % Title
+{} % Style - default
+{def} % label prefix; cite as ``theo:yourlabel''
+
+%----------------------------------------------------------------------------------------
+%	Definition-Theorem
+%----------------------------------------------------------------------------------------
+\usepackage[theorems]{tcolorbox}
+\newtcbtheorem[number within=section]%
+{defthm} % \begin..
+{Definition-Theorem} % Title
+{} % Style - default
+{def} % label prefix; cite as ``theo:yourlabel''
+
+%----------------------------------------------------------------------------------------
+%	Definition-Proposition
+%----------------------------------------------------------------------------------------
+\usepackage[theorems]{tcolorbox}
+\newtcbtheorem[number within=section]%
+{defprop} % \begin..
+{Definition-Proposition} % Title
+{} % Style - default
+{defprop} % label prefix; cite as ``theo:yourlabel''
+
+%----------------------------------------------------------------------------------------
+%	Theorem version 1
+%----------------------------------------------------------------------------------------
+\usepackage[framemethod=TikZ]{mdframed}
+\newcounter{Thm}[section]
+\renewcommand{\theThm}{\arabic{section}.\arabic{Thm}}
+\newenvironment{Thm}[1][]{
+	\refstepcounter{Thm}
+	\mdfsetup{
+		frametitle={
+			\tikz[baseline=(current bounding box.east), outer sep=0pt]
+			\node[anchor=east,rectangle,fill=myblue]
+			{\strut Theorem~\theThm\ifstrempty{#1}{}{:~#1}};},
+		innertopmargin=10pt,linecolor=myblue,
+		linewidth=2pt,topline=true,
+		frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+	}
+	\begin{mdframed}[]\relax
+}{\end{mdframed}}
+
+%----------------------------------------------------------------------------------------
+%	Theorem version 2
+%----------------------------------------------------------------------------------------
+\newtcbtheorem[number within=section]{theorem}{Theorem}{
+  enhanced,
+  sharp corners,
+  attach boxed title to top left={
+    yshifttext=-1mm
+  },
+  colback=white,
+  colframe=browna,
+  % fonttitle=\bfseries,
+  fonttitle = \bfseries\sffamily,
+  boxed title style={
+    sharp corners,
+    size=small,
+    colback=browna,
+    colframe=browna,
+  } 
+}{thm}
+
+%----------------------------------------------------------------------------------------
+%	Remark
+%----------------------------------------------------------------------------------------
+%\usepackage{amsthm}
+%\theoremstyle{remark}
+%\newtheorem{remark}[]{\bfseries Remark}          % <- This will work
+
+\newtcbtheorem[number within=section]{Remark}{Remark}{enhanced, breakable,
+    colback = white, coltitle=black, colframe = black!10!white, colbacktitle = black!5!white,
+    attach boxed title to top left = {yshift = -2mm, xshift = 5mm},
+   boxed title style = {sharp corners},
+   fonttitle = \bfseries, separator sign = {.}, label type=remark}{re}
+%----------------------------------------------------------------------------------------
+%	Lemma
+%----------------------------------------------------------------------------------------
+% \newtcbtheorem[no counter]{Lemma}{Lemma}{
+%   enhanced,
+%   sharp corners,
+%   attach boxed title to top left={
+%     yshifttext=-1mm
+%   },
+%   colback=white,
+%   colframe=myGreen,
+%   fonttitle=\bfseries,
+%   coltitle=white,
+%   boxed title style={
+%     sharp corners,
+%     size=small,
+%     colback=myGreen,
+%     colframe=myGreen,
+%   } 
+% }{lem}
+\newcounter{Lem}[section]
+\renewcommand{\theLem}{\arabic{chapter}.\arabic{section}.\arabic{Lem}}
+\newenvironment{Lem}[1][]{
+	\refstepcounter{Lem}
+	\mdfsetup{
+		frametitle={
+			\tikz[baseline=(current bounding box.east), outer sep=0pt]
+			\node[anchor=east,rectangle,fill=gray!25]
+			{\strut Lemma~\theLem\ifstrempty{#1}{}{:~#1}};},
+		innertopmargin=10pt,linecolor=gray!25,
+		linewidth=2pt,topline=true,
+		frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+	}
+	\begin{mdframed}[]\relax
+}{\end{mdframed}}
+
+%----------------------------------------------------------------------------------------
+%	Corollary
+%----------------------------------------------------------------------------------------
+\newcounter{Cor}[section]
+\renewcommand{\theCor}{\arabic{chapter}.\arabic{section}.\arabic{Cor}}
+\newenvironment{Cor}[1][]{
+	\refstepcounter{Cor}
+	\mdfsetup{
+		frametitle={
+			\tikz[baseline=(current bounding box.east), outer sep=0pt]
+			\node[anchor=east,rectangle,fill=gray!20]
+			{\strut Corollary~\theCor\ifstrempty{#1}{}{:~#1}};},
+		innertopmargin=10pt,linecolor=gray!20,
+		linewidth=2pt,topline=true,
+		frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+	}
+	\begin{mdframed}[]\relax
+}{\end{mdframed}}
+
+%----------------------------------------------------------------------------------------
+%	Example
+%----------------------------------------------------------------------------------------
+% \newtcbtheorem[no counter]{Example}{Example}{
+%   enhanced,
+%   sharp corners,
+%   attach boxed title to top left={
+%     yshifttext=-1mm
+%   },
+%   colback=white,
+%   colframe=mygray,
+%   fonttitle=\bfseries,
+%   coltitle=white,
+%   boxed title style={
+%     sharp corners,
+%     size=small,
+%     colback=mygray,
+%     colframe=mygray,
+%   } 
+% }{exa}
+
+\newtcbtheorem[number within=section]{Example}{Example}
+{
+	colback = myexamplebg,
+	breakable,
+	colframe = myexamplefr,
+	coltitle = myexampleti,
+	boxrule = 1pt,
+	sharp corners,
+	detach title,
+	before upper=\tcbtitle\par\smallskip,
+	fonttitle = \bfseries,
+	description font = \mdseries,
+	separator sign none,
+	description delimiters parenthesis,
+}
+{ex}
+
+%----------------------------------------------------------------------------------------
+%	Proposition
+%----------------------------------------------------------------------------------------
+\newtcbtheorem[number within=section]{Proposition}{Proposition}{
+  enhanced,
+  sharp corners,
+  attach boxed title to top left={
+    yshifttext=-1mm
+  },
+  colback=white,
+  colframe=brownb,
+  fonttitle = \bfseries\sffamily,
+  coltitle=white,
+  boxed title style={
+    sharp corners,
+    size=small,
+    colback=brownb,
+    colframe=brownb,
+  } 
+}{Prop}
+
+%----------------------------------------------------------------------------------------
+%	Hint
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Property
+%----------------------------------------------------------------------------------------
+% \tcbuselibrary{theorems, skins, hooks}
+% \newtcbtheorem[number within=section]{Property}{Property}
+% {%
+% 	enhanced,
+% 	breakable,
+% 	colback = mytheorembg,
+% 	frame hidden,
+% 	boxrule = 0sp,
+% 	borderline west = {2pt}{0pt}{mytheoremfr},
+% 	sharp corners,
+% 	detach title,
+% 	before upper = \tcbtitle\par\smallskip,
+% 	coltitle=black,
+% 	fonttitle = \bfseries,
+% 	description font = \mdseries,
+% 	separator sign none,
+% 	segmentation style={solid, mytheoremfr},
+% }
+% {th}
+
+% \tcbuselibrary{theorems, skins, hooks}
+% \newtcbtheorem[number within=chapter]{property}{Property}
+% {%
+% 	enhanced,
+% 	breakable,
+% 	colback = mytheorembg,
+% 	frame hidden,
+% 	boxrule = 0sp,
+% 	borderline west = {2pt}{0pt}{mytheoremfr},
+% 	sharp corners,
+% 	detach title,
+% 	before upper = \tcbtitle\par\smallskip,
+% 	coltitle = mytheoremfr,
+% 	fonttitle = \bfseries\sffamily,
+% 	description font = \mdseries,
+% 	separator sign none,
+% 	segmentation style={solid, mytheoremfr},
+% }
+% {th}
+
+
+\tcbuselibrary{theorems,skins,hooks}
+\newtcolorbox{Theoremcon}
+{%
+	enhanced
+	,breakable
+	,colback = mytheorembg
+	,frame hidden
+	,boxrule = 0sp
+	,borderline west = {2pt}{0pt}{mytheoremfr}
+	,sharp corners
+	,description font = \mdseries
+	,separator sign none
+}
+
+%----------------------------------------------------------------------------------------
+%	claim
+%----------------------------------------------------------------------------------------
+% \theoremstyle{remark}
+% \newtheorem{claim}{\bfseries Claim}
+%\theoremstyle{remark}
+%\newtheorem{claim}{\bfseries Claim}
+%\newtheorem{newclaim}{\bfseries Claim}[section] % 新的定理环境
+
+%----------------------------------------------------------------------------------------
+%	Axiom
+%----------------------------------------------------------------------------------------
+\newtcbtheorem[no counter]{Axiom}{Axiom}{
+  enhanced,
+  sharp corners,
+  attach boxed title to top left={
+    yshifttext=-1mm
+  },
+  colback=white,
+  colframe=bluea,
+  fonttitle=\bfseries,
+  coltitle=white,
+  boxed title style={
+    sharp corners,
+    size=small,
+    colback=bluea,
+    colframe=bluea,
+  } 
+}{Axi}
+%----------------------------------------------------------------------------------------
+%	Note
+%----------------------------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+
+\usetikzlibrary{arrows,calc,shadows.blur}
+\tcbuselibrary{skins}
+
+\newtcolorbox{note}[1][]{%
+    enhanced jigsaw,
+    colback=gray!20!white,%
+    colframe=gray!80!black,
+    size=small,
+    boxrule=1pt,
+    title=\textbf{Note:-},
+    halign title=flush center,
+    coltitle=black,
+    breakable,
+    drop shadow=black!50!white,
+    attach boxed title to top left={xshift=1cm,yshift=-\tcboxedtitleheight/2,yshifttext=-\tcboxedtitleheight/2},
+    minipage boxed title=1.5cm,
+    boxed title style={%
+        colback=white,
+        size=fbox,
+        boxrule=1pt,
+        boxsep=2pt,
+        underlay={%
+            \coordinate (dotA) at ($(interior.west) + (-0.5pt,0)$);
+            \coordinate (dotB) at ($(interior.east) + (0.5pt,0)$);
+            \begin{scope}
+                \clip (interior.north west) rectangle ([xshift=3ex]interior.east);
+                \filldraw [white, blur shadow={shadow opacity=60, shadow yshift=-.75ex}, rounded corners=2pt] (interior.north west) rectangle (interior.south east);
+            \end{scope}
+            \begin{scope}[gray!80!black]
+                \fill (dotA) circle (2pt);
+                \fill (dotB) circle (2pt);
+            \end{scope}
+        },
+    },
+    #1,
+}
+% ---------------------------------------------------------------------------------------
+%    Exercise
+%---------------------------------------------------------------------------------------
+\newtcbtheorem[number within=section]{exercise}{Exercise}{enhanced, breakable,
+colback = white, coltitle=black, colframe = black!25!white, colbacktitle = black!15!white,
+attach boxed title to top left = {yshift = -2mm, xshift = 5mm},
+boxed title style = {sharp corners},
+fonttitle = \bfseries, separator sign = {.}, label type=exercise}{ex}
+% \crefname{exercise}{exercise}{exercises}
+% ---------------------------------------------------------------------------------------
+%    Proof
+%---------------------------------------------------------------------------------------
+\usepackage{amsthm}
+\renewcommand{\proofname}{\normalfont \textbf{Proof}}
+%\renewenvironment{proof}{
+%  \begin{leftbar}
+%    \emph{\normalfont \textbf{Proof}.}
+%}
+%{
+%  \newline
+%  \null\hfill$\qed$
+%  \end{leftbar}
+%}
+% \renewcommand\qedsymbol{Q.E.D.}
+% \renewcommand\qedsymbol{$\blacksquare$}
+\newenvironment{Proof of claim}
+  {\begin{proof}[\normalfont \textbf{Proof of claim}]}
+  {\end{proof}}
+\newcommand\red[1]{\textcolor{red}{#1}}
+\newenvironment{Soln}{\vspace{4pt}\textbf{\\}{\color{red}\textit{Solution}}.\normalfont}{\color{red}\hfill$\blacksquare$\vspace{4pt}\par}	% https://www.allacronyms.com/solution/abbreviated
+\newenvironment{skPf}{\vspace{1ex}\textbf{\\}{\color{black}\textbf{Sketch of Proof}}.\normalfont}{\color{black}\hfill$\blacksquare$\vspace{1ex}\par}
+
+\renewenvironment{pf of claim}{
+  \begin{leftbar}
+    \emph{\normalfont \textbf{Proof of Claim.}}
+}
+{
+  \newline
+  \null\hfill$\lrcorner$
+  \end{leftbar}
+}
+%----------------------------------------------------------------------------------------
+%	Basic Thm Environment
+%----------------------------------------------------------------------------------------
+\theoremstyle{definition}
+\newtheorem*{Def}{Definition}
+\newtheorem*{Prop}{Proposition}
+\newtheorem*{Lemma}{Lemma}
+\newtheorem*{Theo}{Theorem}
+\newtheorem*{Coro}{Corollary}
+\newtheorem*{remark}{Remark}
+\newtheorem*{claim}{Claim}
+\theoremstyle{plain}
+\newtheorem{Ex}{Exercise}
+\newtheorem{Prob}{Problem}
+
+% =============== Filter unwanted warnings========================
+\usepackage{silence}
+\WarningsOff[tcolorbox]
+\hbadness=1000000
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\vspace{-2ex}\includegraphics[height=3.956ex]{pictures/NJUPT_Math.png}}\setlength{\headheight}{3.8000ex}
+% \lhead{\vspace{-2ex}\includegraphics[height=3.956ex]{images/NJUPT_Math.png}}\setlength{\headheight}{3.8000ex}
+\chead{}
+\rhead{\textsl{Notes} for \textbf{Abstract Algebra}}
+\lfoot{\color{gray}\small \copyright\ \textsc{H.-T.~Guo}~(\texttt{guohuitongguo@gmail.com})}
+\cfoot{\thepage}
+\rfoot{\color{gray}\small 2023}
+% \usepackage{fancyhdr}
+% \usepackage{graphicx}
+% \usepackage{xcolor}
+
+% \pagestyle{fancy}
+% \fancyhf{} % 清除现有的页眉和页脚
+
+% % 使图片紧贴页眉线
+% \lhead{\vspace{-1.ex}\raisebox{-1ex}{\includegraphics[height=3.956ex]{NJUPT_Math.png}}}\setlength{\headheight}{3.8000ex}
+
+% \chead{}
+% \rhead{Abstract Algebra}
+% \lfoot{\color{gray}\small \copyright\ \textsc{T.-Y.~Li}~(\texttt{kellty@pku.edu.cn})}
+% \cfoot{\thepage}
+% \rfoot{\color{gray}\small 2021}
+
+% % 调整页眉高度
+% \setlength{\headheight}{4.2ex}
