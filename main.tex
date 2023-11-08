@@ -1,0 +1,930 @@
+% \documentclass[11pt, a3paper, openany]{article}
+\documentclass[12pt, a3paper, openany]{book}
+\pagenumbering{roman} % 将页码设置为罗马数字样式
+\input{preamble}
+\title{Lecture Notes: Abstract Algebra and Category}
+
+% \date{\today}
+\titleformat{\section}[frame]
+{\normalfont\color{structurecolor}}
+    {\footnotesize \enspace \large \textcolor{structurecolor}{\S \,\thesection}\enspace}{6pt}
+    {\Large\filcenter \bf \kaishu }
+
+\titlespacing*{\section}{1pc}{*7}{*2.3}[1pc]
+\titleformat{\subsection}[hang]{\bfseries}{
+    \large\bfseries\color{structurecolor}\thesubsection\enspace}{1pt}{%
+    \color{structurecolor}\large\bfseries\filright}
+\titleformat{\subsubsection}[hang]{\bfseries}{
+    \large\bfseries\color{structurecolor}\thesubsubsection\enspace}{1pt}{%
+    \color{structurecolor}\large\bfseries\filright}
+\begin{document}
+
+% \maketitle
+\begin{titlepage}
+  \newgeometry{top=10mm}
+  \null\hfill Copyright \textcopyright 2023 by H.-T.~Guo
+  \vspace{2.5cm}
+\begin{flushright}
+\vfill
+\large{\bf H.-T.~Guo}\\
+\large{\textit{School of Science\\
+Nanjing University of Posts and Telecommunications}}
+\vfill
+\Huge{\bf \textbf{Notes on}}\\
+\Huge{\bf Complex Analysis}
+\vfill
+\vfill
+\vfill
+\vfill
+{\Large \today}\\ 
+ 
+  
+\end{flushright}
+\end{titlepage}
+% \pdfbookmark[1]{\contentsname}{toc}
+
+\chapter*{Preface}
+As a continuation and extension of Advanced Statistics, this course introduces modern mathematical tools such as empirical processes, concentration inequalities, and random matrices, based on which the general theory and methodology of M- and Z-estimation, semiparametric and nonparametric models, and high-dimensional models are studied, from both asymptotic and nonasymptotic points of view. The topics covered include the consistency and asymptotic normality of M- and Z-estimators, semiparametric estimation and its efficiency, regularization methods for nonparametric and high-dimensional models, minimax lower bounds, etc., if time permits. Through this course, students will develop a comprehensive understanding of modern statistical theory and acquire theoretical knowledge needed for frontier research in statistics and data science.
+
+\vspace{2ex}
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{pictures/jocho.png}
+\end{center}
+\vspace{2.5ex}
+All rights reserved.
+Please feel free to leave a message at \url{https://zhuanlan.zhihu.com/p/345935324} {\color{lightgray} (under construction)}. Any comments are welcome. {\Large \PeaceDove}
+\begin{figure}[!b]
+	\centering
+	\includegraphics[width=0.7\linewidth]{pictures/how2studyMath.png}
+	\vspace{11ex}
+\end{figure}
+\clearpage
+
+\pdfbookmark[1]{Contents}{toc}
+\tableofcontents
+
+\vspace{1ex}
+% \begin{center}
+% 	\includegraphics[width=0.4\linewidth]{cut-off_rule.png}
+%         % \includegraphics[width=0.4\linewidth]{images/cut-off_rule.png}
+% \end{center}
+% \vspace{-3ex}
+
+\pdfbookmark[1]{References}{ref}
+\begin{thebibliography}{}
+\bibitem[H]{vdVaart1998asymptotic} Thomas W. Hungerford. (1974). \emph{Algebra}. Springer. \textsc{doi}:\href{https://doi.org/10.1007/978-1-4612-6101-8}{10.1017/9781461261018}
+\bibitem[A]{Wainwright2019high} Michael Artin. (2019). \emph{Algebra}. Pearson. 
+{\small
+%\bibitem[B\&D]{Bickel2016mathematical} Peter~J.~Bickel; Kjell~A.~Doksum. (2016). \emph{Mathematical Statistics: Basic Ideas and Selected Topics, Vol.~II} (2\textsuperscript{nd} ed.). CRC. \textsc{doi}:\href{http://dx.doi.org/10.1201/b19822}{10.1201/b19822}
+\bibitem[D\&F]{Boucheron2013Concentration}  David S. Dummit; Richard~M.~Foote. (2003). \emph{Abstract Algebra, 3rd Edition}. Wiley. \textsc{doi}:\href{https://www.wiley.com/en-jp/Abstract+Algebra%2C+3rd+Edition-p-9780471433347}{9780471433347}
+%\bibitem[B\&vdG]{Bühlmann2011statistics} Peter B{\"u}hlmann; Sara van de Geer. (2011). \emph{Statistics for High-Dimensional Data: Methods, Theory and Applications}. Springer. \textsc{doi}:\href{https://doi.org/10.1007/978-3-642-20192-9}{10.1007/978-3-642-20192-9}
+%\bibitem[D]{Dudley2014Uniform} R.~M.~Dudley. (2014). \emph{Uniform Central Limit Theorems} (2\textsuperscript{nd} ed.). Cambridge University Press. \textsc{doi}:\href{https://doi.org/10.1017/CBO9781139014830}{10.1017/CBO9781139014830}
+\bibitem[A]{GSM104} Paolo Aluffi. (2016). \emph{Algebra: Chapter 0}. AMS Society. \textsc{doi}:\href{https://bookstore.ams.org/view?ProductCode=GSM/104}{9781470465711}
+\bibitem[L]{GTM05} Saunders~M.~Lane. (1978). \emph{Categories for the Working Mathematician, 2nd Edition}. Springer. \textsc{doi}:\href{https://doi.org/10.1007/978-1-4757-4721-8}{10.1017/9781475747218}
+}
+\end{thebibliography}
+\vspace{5ex}
+\begin{flushleft}
+    \Huge\textbf{Reading Lists}
+\end{flushleft}
+
+\section*{Basic Textbooks}
+\begin{itemize}
+	\item \textbf{Thomas W. Hungerford}, \textit{Algebra}\\
+ \\
+The primary textbook for Oxford second year Complex Analysis course. Very thorough overall and especially for residue
+calculus. Yet it does not contain advanced topics such as Riemann Mapping Theorem.
+	\item \textbf{David S. Dummit; Richard~M.~Foote.}, \textit{Abstract Algebra, 3rd Edition}\\
+ \\
+An undergraduate complex analysis textbook adapted from Gong’s book. Written in Chinese and is already out of print.
+Contains more detail and examples compared to Gong’s book. Very typical Chinese–style textbook and is one of my favorite.
+\end{itemize}
+
+\section*{Advanced Textbooks}
+
+~\\
+\begin{flushright}
+    \begin{tabular}{c}
+        \\
+        \today
+    \end{tabular}
+\end{flushright}
+%\pdfbookmark[1]{List of Figures \& Tables}{fig+tbl}
+\pdfbookmark[1]{List of Figures}{fig}
+
+\begingroup
+\renewcommand{\color}[1]{}
+\listoffigures
+%\listoftables
+\endgroup
+
+\vspace{3ex}
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{pictures/cut-off_rule.png}
+        % \includegraphics[width=0.4\linewidth]{images/cut-off_rule.png}
+\end{center}
+\vspace{1ex}
+\begin{quotation}
+	\textsl{In mathematics the art of proposing a question must be held of higher value than solving it. The essence of mathematics lies in its freedom.}
+	
+\hfill ------ Georg Cantor
+\end{quotation}
+
+\begin{figure}[!b]
+	\centering
+	\includegraphics[width=0.6\linewidth]{pictures/dongfang.png}
+        % \includegraphics[width=0.6\linewidth]{images/jocho.png}
+	\vspace{11ex}
+\end{figure}
+
+
+
+
+% \clearpage
+\Pickup\ Latest Version: \url{https://www.overleaf.com/read/hddtqbwssfyr#83496c}
+
+\Pickup\ Course Page: \url{https://www.math.pku.edu.cn/teachers/linw/2721s21.html}
+
+\vspace{1em}
+\textdbend\;\textbf{\textsc{Note}} (added in December 2020): Please have a look of the Errata in \S\ref{sec:Errata}.
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\part{Preliminary Knowledge}
+
+\chapter{Naive Set Theory \& Axiomatic Set Theory}
+\intro{
+    Mathematics is the queen of the sciences and number theory the queen of mathematics.
+    \rightline{\bf -----C.Gauss}
+    }
+\\
+\headrule
+\startcontents
+\printcontents{}{1}{}
+
+
+
+\section{\bf Recall Some Number Theory \sf\scriptsize (2023/10/1)}\\
+
+\subsection{Factorization}
+\subsection{Congruence Modulo \& Congruence Class}
+
+\section{Naive Set Theory \& ZFC Set Theory \sf\scriptsize (2023/10/12)}
+\subsection{Recall some \textbf{Set} in High School}
+\subsection{Basic Naive Set Theory}
+\textbox{The history of Set Theory}{
+    As the opening of his lectures, Feynman asked the following question:
+    \begin{quote}
+        If, in some cataclysm, all of scientific knowledge were to be destroyed, and only one sentence passed on to the next generations of creatures, what statement would contain the most information in the fewest words? 
+    \end{quote}
+    He gave an answer himself:
+    \begin{quote}
+        Matter is made of atoms.
+    \end{quote}
+    This statement is not absolutely right. For example, E\&M waves may be considered a form of matter which is not made of atoms (though made of quanta). Dark matter is not made of conventional atoms either, and dark energy does not look like atoms by all means. Nevertheless, our familiar matter world is indeed made of atoms. 
+    \tcblower
+    How do we know, why do we care, and what are the consequences that the world is made of atoms? This will be the focus of this part. More explicitly, we will address:
+    \tenum{
+        \item How the atomic theory arised in chemistry?\label{item:atom-chem}
+        \item How do we know the size of an atom?\label{item:atom-size}
+        \item Can we find direct evidences for the existence of atoms?\label{item:atom-evid}
+        \item How can an atom be stable? -- How does quantum mechanics save the world?\label{item:atom-quantum}
+        \item Where do the chemical natures of atoms arise?\label{item:atom-chem-nature}
+    }
+}
+\subsection{Basic Mathematical Logic}
+\subsection{The ZFC \& Axiomatic Set Theory}
+\chapter{Basic Categories}
+\headrule
+\startcontents
+\printcontents{}{1}{}
+
+\section{Fundamental Category Theory}
+\subsection{Basic Definition \& Axiom of Categories}
+\begin{Lem}
+    
+\end{Lem}
+\section{Functors}
+\section{Natural Transformation}
+\section{Adjoint Functors}
+\section{Limits \& Colimits}
+\section{Yoneda's Lemma}
+
+    
+\begin{Definition}{The Test Definition environment}{mylabel}
+	\index{Dgeom@$D_{\mathrm{geom}, -}$, $D_{\mathrm{unip}, -}$}
+	Let $\mathcal{O}$ be a finite union of semisimple conjugacy classes in $M(F)$. Define
+	\begin{align*}
+		D_{\mathrm{geom},-}(\tilde{M}, \mathcal{O}) & := \left\{ D \in D_-(\tilde{M}) : \tilde{\gamma} \in \Supp(D) \implies \gamma_{\text{ss}} \in \mathcal{O} \right\}, \\
+		D_{\mathrm{geom}, -}(\tilde{M}) & := \bigoplus_{\substack{\mathcal{O} \subset M(F) \\ \text{ss.\ conj.\ class} }} D_{\mathrm{geom},-}(\tilde{M}, \mathcal{O}) \; \subset D_-(\tilde{M}), \\
+		D_{\mathrm{unip}, -}(\tilde{M}) & := D_{\mathrm{geom}, -}(\tilde{M}, \{1\}).
+	\end{align*}
+\end{Definition}
+\begin{remark}
+Counter is okay
+\end{remark}
+\begin{remark}
+    Where do the chemical natures of atoms arise?
+\end{remark}
+\begin{claim}
+    
+\end{claim}
+\textbf{Hint}:
+% \newgeometry{paper=a4paper,
+% 	top=3cm,
+% 	inner=2.54cm,
+% 	outer=2.54cm,
+% 	bottom=3cm,
+% 	headheight=5ex,
+% 	headsep=5ex,}
+
+\begin{Axiom}{Axiom of Choice}{}
+For any set $X$ of nonempty \mathbf{Sets}, there exists a choice function $f$ that is defined on $X$ and maps each set of $X$ to an element of that set.
+\end{Axiom}
+\begin{remark}
+    test.
+\end{remark}
+% \begin{claim}
+%     Test of Claim Envirenment.
+% \end{claim}
+% \begin{Proof of claim}
+%     start.
+% \end{Proof of claim}
+% \newgeometry{top=1.5cm, bottom=1.5cm, right=6cm, left=1.5cm, heightrounded, marginparwidth=5cm, marginparsep=0.5cm}
+% \newgeometry{
+% 	paper=a3paper,
+% 	top=3cm,
+% 	inner=2.54cm,
+% 	outer=2.54cm,
+% 	bottom=3cm,
+% 	headheight=5ex,
+% 	headsep=5ex,
+% }
+
+\begin{theorem}{}{}
+\textbf{Nested Interval Property (NIP).} For each $n\in \mathbb{N}$, assume we have an interval $I_{n}=[a_{n}, b_{n}]=\{x \in \mathbb{R}|a_{n} \leq x \leq b_{n}\}$ and that $I_{n+1}$ is a set of $I_{n}$. Then, the resulting nested sequence of closed intervals
+\begin{equation*}
+    I_1 \supseteq I_2 \supseteq I_3 \supseteq I_4 \supseteq ...
+\end{equation*}
+has a non empty intersection; that is, $\cap_{n=1}^{\infty} I_{n}$ is not equal to nonempty set.
+
+\end{theorem}
+% \begin{Thm}[Nested Interval Property (NIP)]
+% \textbf{Nested Interval Property (NIP).} For each $n\in \mathbb{N}$, assume we have an interval $I_{n}=[a_{n}, b_{n}]=\{x \in \mathbb{R}|a_{n} \leq x \leq b_{n}\}$ and that $I_{n+1}$ is a set of $I_{n}$. Then, the resulting nested sequence of closed intervals
+% \begin{equation*}
+%     I_1 \supseteq I_2 \supseteq I_3 \supseteq I_4 \supseteq ...
+% \end{equation*}
+% has a non empty intersection; that is, $\cap_{n=1}^{\infty} I_{n}$ is not equal to nonempty set.
+% \end{Thm}
+
+\begin{proof}
+    This is \cite[Théorème 5.20]{Li11}. First, it reduces to the case $\mathbf{G}^! \in \Endo_{\elli}(\tilde{G})$. The continuity in the Archimedean case is addressed in \cite[\S 7.1]{Li19}, which is based on the works of Adams and Renard. The $\tilde{K} \times \tilde{K}$-finite transfer in the Archimedean case is \cite[Theorem 7.4.5]{Li19}.
+\end{proof}
+\begin{Lem}
+For all $\phi \in T^{\Endo}(\tilde{G})$ and $f \in \orbI_{\asp}(\tilde{G}) \otimes \mes(G)$, we have\[ \Trans^{\Endo}(f)(\phi) = \sum_{\tau \in T_-(\tilde{G})/\mathbb{S}^1} \Delta(\phi, \tau) f_{\tilde{G}}(\tau).\]
+\end{Lem}
+\begin{proof}
+The non-Archimedean case is the main result of \cite{Li19}. Consider the case $F = \R$ next.
+Write $f_{\tilde{G}}(\pi) := \Theta_\pi(f_{\tilde{G}})$ for each $\pi \in \Pi_{\mathrm{temp}, -}(\tilde{G})$. The local character relation of \cite[Theorem 7.4.3]{Li19} yields a function $\Delta_{\mathrm{spec}}: T^{\Endo}(\tilde{G}) \times \Pi_{\mathrm{temp}, -}(\tilde{G}) \to \{\pm 1\}$ satisfying
+\begin{equation}\label{eqn:local-character-relation-aux-0}
+    \Trans^{\Endo}(f)(\phi) = \sum_{\pi \in \Pi_{\mathrm{temp}, -}(\tilde{G})} \Delta_{\mathrm{spec}}(\phi, \pi) f_{\tilde{G}}(\pi)
+\end{equation}
+for all $\phi$ and $f \in \orbI_{\asp}(\tilde{G}) \otimes \mes(G)$, and $\Delta_{\mathrm{spec}}(\cdot, \pi)$ (resp.\ $\Delta_{\mathrm{spec}}(\phi, \cdot)$) has finite support for each $\pi$ (resp.\ for each $\phi$). These properties characterize $\Delta_{\mathrm{spec}}$.Choose a representative in $T_-(\tilde{G})$ for every class in $T_-(\tilde{G})/\mathbb{S}^1$. By the theory of $R$-groups, $T_-(\tilde{G})/\mathbb{S}^1$ gives a basis of $D_{\mathrm{temp}, -}(\tilde{G}) \otimes \mes(G)^\vee$: specifically, we may write
+\[ \Theta_\tau = \sum_\pi \mathrm{mult}(\tau : \pi) \Theta_\pi, \quad \Theta_\pi = \sum_\tau \mathrm{mult}(\pi : \tau) \Theta_\tau \]
+for all $\tau \in T_-(\tilde{G})/\mathbb{S}^1$ with its representative and $\pi \in \Pi_{\mathrm{temp}, -}(\tilde{G})$, for uniquely determined coefficients $\mathrm{mult}(\cdots)$. Switching between bases, \eqref{eqn:local-character-relation-aux-0} uniquely determines
+	\[ \Delta^\circ: T^{\Endo}(\tilde{G}) \times T_-(\tilde{G}) \to \mathbb{S}^1 \]such that
+\begin{align*}
+	\Delta^\circ(\phi, z\tau) & = z\Delta^\circ(\phi, \tau), \quad z \in \mathbb{S}^1 , \\
+	\Trans^{\Endo}(f)(\phi) & = \sum_{\tau \in T_-(\tilde{G})/\mathbb{S}^1} \Delta^\circ(\phi, \tau) f_{\tilde{G}}(\tau)
+\end{align*}for all $f$. Specifically, $\Delta^\circ(\phi, \tau) = \sum_{\pi \in \Pi_{\mathrm{temp}, -}(\tilde{G})} \Delta_{\mathrm{spec}}(\phi, \pi) \mathrm{mult}(\pi : \tau)$ for all $\tau \in T_-(\tilde{G})/\mathbb{S}^1$.Our goal is thus to show
+\begin{equation}\label{eqn:local-character-relation-aux-1}
+    \Delta^\circ(\phi, \tau) = \Delta(\phi, \tau), \quad (\phi, \tau) \in T^{\Endo}(\tilde{G}) \times T_-(\tilde{G}).
+\end{equation}.The first step is to reduce to the elliptic setting. We say $\pi \in \Pi_{\mathrm{temp}, -}(\tilde{G})$ is \emph{elliptic} if $\Theta_\pi$ is not identically zero on $\Gamma_{\mathrm{reg, ell}}(\tilde{G})$. In \cite[Definition 7.4.1]{Li19} one defined a subset $\Pi_{2\uparrow, -}(\tilde{G})$ of $\Pi_{\mathrm{temp}, -}(\tilde{G})$. All $\pi \in \Pi_{2\uparrow, -}(\tilde{G})$ are elliptic. Indeed, by \cite[Remark 7.5.1]{Li19} $\pi$ is a non-degenerate limit of discrete series in the sense of Knapp--Zuckerman, and such representations are known to be elliptic; see \textit{loc.\ cit.} for the relevant references. By \cite[Proposition 5.4.4]{Li12b}, $T_{\elli, -}(\tilde{G})/\mathbb{S}^1$ gives a basis for the space spanned by the characters of all elliptic $\pi$. Let $\phi \in T^{\Endo}(\tilde{G})$. Take $M \in \mathcal{L}(M_0)$ and $\mathbf{M}^! \in \Endo_{\elli}(\tilde{M})$ such that $\phi$ comes from $\phi_{M^!} \in \Phi_{\mathrm{bdd}, 2}(M^!)$ up to $W^G(M)$. Denote the factors relative to $\tilde{M}$ as $\Delta^{\tilde{M}}$, etc. By \cite[Theorem 7.4.3]{Li19}, \[ \Delta_{\mathrm{spec}}(\phi, \pi) = \sum_{\pi_M \in \Pi_{2\uparrow, -}(\tilde{M})} \Delta^{\tilde{M}}_{\mathrm{spec}}(\phi_{M^!}, \pi_M) \mathrm{mult}(I_{\tilde{P}}(\pi_M) : \pi) \] for all $\pi \in \Pi_{\mathrm{temp}, -}(\tilde{G})$, where $P \in \mathcal{P}(M)$ and $\mathrm{mult}(I_{\tilde{P}}(\pi_M) : \pi)$ denotes the multiplicity of $\pi$ in $I_{\tilde{P}}(\pi_M)$. We claim that
+\begin{equation}\label{eqn:local-character-relation-aux-2}
+\Delta^\circ(\phi, \tau) = \sum_{\substack{\tau_M \in T_{\elli, -}(\tilde{M}) \\ \tau_M \mapsto \tau }} \Delta^{\tilde{M}, \circ}(\phi_{M^!}, \tau_M).
+\end{equation}
+Note that the sum is actually over an orbit $W^G(M) \tau_M$ if such a $\tau_M$ exists. We may assume $\tau$ is the representative of some element from $T_-(\tilde{G})/\mathbb{S}^1$; we also choose representatives in $T_-(\tilde{M})$ for $T_-(\tilde{M})/\mathbb{S}^1$ compatibly with induction. We have
+\begin{multline*}
+\Delta^\circ(\phi, \tau) = \sum_{\pi \in \Pi_{\mathrm{temp}, -}(\tilde{G})} \Delta_{\mathrm{spec}}(\phi, \pi) \mathrm{mult}(\pi : \tau) \\
+		= \sum_\pi \sum_{\pi_M \in \Pi_{2\uparrow, -}(\tilde{M})} \sum_{\tau_M \in T_{\elli, -}(\tilde{M})/\mathbb{S}^1} \\
+		\cdot \mathrm{mult}(\tau_M : \pi_{\tilde{M}}) \mathrm{mult}(I_{\tilde{P}}(\pi_{\tilde{M}}) : \pi ) \mathrm{mult}(\pi : \tau) \Delta^{\tilde{M}, \circ}(\phi_{M^!}, \tau_M).
+\end{multline*} Given $\tau_M$, the sum over $(\pi, \pi_M)$ of the triple products of $\mathrm{mult}(\cdots)$ is readily seen to be $1$ if $\tau_M \mapsto \tau$, otherwise it is zero. This proves \eqref{eqn:local-character-relation-aux-2}. Observe that \eqref{eqn:local-character-relation-aux-2} take the same form as the induction formula in Definition \ref{def:spectral-transfer-factor}. In order to prove \eqref{eqn:local-character-relation-aux-1}, we may assume $\phi \in T^{\Endo}_{\elli}(\tilde{G})$, in which case $\Delta^\circ(\phi, \tau) = 0$ unless $\tau \in T_{\elli, -}(\tilde{G})$, and ditto for $\Delta(\phi, \tau)$. It is thus legitimate to take $f \in \orbI_{\asp, \cusp}(\tilde{G}) \otimes \mes(G)$ in the characterization of $\Delta^\circ(\phi, \cdot)$. All in all, $\Delta^\circ(\phi, \cdot)$ and $\Delta(\phi, \cdot)$ have the same characterization, whence \eqref{eqn:local-character-relation-aux-1}.The case $F = \CC$ is even simpler because it reduces to the case of split maximal tori via parabolic induction: see \cite[\S 7.6]{Li19}.
+\end{proof}
+\begin{note}
+This is a custom note box! It's designed to draw the reader's attention to important information.
+\end{note}
+\begin{Example}{$\bs{p-}$Norm}{sec_example1}
+\label{pnorm}$V={\bbR}^m$, $p\in\bbR_{\geq 0}$. Define for $x=(x_1,x_2,\cdots,x_m)\in\bbR^m$ $$\|x\|_p=\Big(|x_1|^p+|x_2|^p+\cdots+|x_m|^p\Big)^{\frac1p}$$(In school $p=2$)
+\end{Example}
+\begin{Example}{}{sec_example2}
+Prove that triangle inequality is true if $p\geq 1$ for $p-$norms. (What goes wrong for $p<1$
+\end{Example}
+\begin{proof}
+\textbf{For Property \ref{n:3} for norm-2}	\subsubsection*{\textbf{When field is $\bbR:$}} We have to show
+\begin{align*}
+& \sum_i(x_i+y_i)^2\leq \left(\sqrt{\sum_ix_i^2} +\sqrt{\sum_iy_i^2}\right)^2                                       \\
+\implies & \sum_i (x_i^2+2x_iy_i+y_i^2)\leq \sum_ix_i^2+2\sqrt{\left[\sum_ix_i^2\right]\left[\sum_iy_i^2\right]}+\sum_iy_i^2 \\
+\implies & \left[\sum_ix_iy_i\right]^2\leq \left[\sum_ix_i^2\right]\left[\sum_iy_i^2\right]
+\end{align*}
+So in other words prove $\langle x,y\rangle^2 \leq \langle x,x\rangle\langle y,y\rangle$ where $$\langle x,y\rangle =\sum\limits_i x_iy_i$$
+\end{proof}
+\begin{note}
+   \begin{itemize}
+	\item $\|x\|^2=\langle x,x\rangle$
+	\item $\langle x,y\rangle=\langle y,x\rangle$
+	\item $\langle \cdot,\cdot\rangle$ is $\bbR-$linear in each slot i.e. 
+\begin{align*}
+	\langle rx+x',y\rangle=r\langle x,y\rangle+\langle x',y\rangle \text{ and similarly for second slot}
+\end{align*}
+Here in $\langle x,y\rangle$ $x$ is in first slot and $y$ is in second slot.
+    \end{itemize}
+\end{note} 
+The Test\\
+\begin{Cor}
+    Let $i^{G^![s]}_{M^!}(\epsilon[s])$ be as in  \eqref{eqn:iGM-jump}. We have
+	\[ i_{M^!}\left( \tilde{G}, G^![s] \right) i^{G^![s]}_{M^!}(\epsilon[s]) \cdot \left\|\check{\beta}\right\| =
+	\left( Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} : Z_{\underline{\tilde{M}}^\vee}^\circ \right)^{-1}
+	i_{\underline{M}^!}\left( \tilde{G}, G^![s] \right) \cdot \left\|\check{\alpha}\right\|. \]
+\end{Cor}
+\begin{proof}
+    Use \cite[Lemma 1.1]{Ar99} to obtain the natural surjection $Z_{\tilde{M}^\vee}^\circ / Z_{\tilde{G}^\vee}^\circ \twoheadrightarrow Z_{(M^!)^\vee} / Z_{G^![s]^\vee}$. Denote its kernel as $K_1$. One readily checks that $|K_1|^{-1} = i_{M^!}\left( \tilde{G}, G^![s] \right)$ as in \cite[p.230 (2)]{MW16-1}.
+	We contend that the image of $Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} / Z_{\tilde{G}^\vee}^\circ$ is contained in $Z_{(M^!)^\vee}^{\check{\beta}} / Z_{G^![s]^\vee}$. When $\alpha$ is short, $\check{\alpha}$ transports to $\check{\beta}$ under $T^! \simeq T$; in this case $Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} / Z_{\tilde{G}^\vee}^\circ$ is actually the preimage of $Z_{(M^!)^\vee}^{\check{\beta}} / Z_{G^![s]^\vee}$. When $\alpha$ is long, $\check{\alpha}$ transports to $\frac{1}{2} \check{\beta}$, and the containment is clear.
+	Set $K'_1 := K_1 \cap (Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} / Z_{\tilde{G}^\vee}^\circ)$; we have just seen that $K_1 = K'_1$ if $\alpha$ is short. From these and Lemma \ref{prop:alpha-Z-Mbar}, we obtain the following commutative diagram of abelian groups, with exact rows:
+	\[\begin{tikzcd}
+        & 1 \arrow[d] & 1 \arrow[d] & 1 \arrow[d] & & \\
+		1 \arrow[r] & K_3 \arrow[d] \arrow[r] & Z_{\underline{\tilde{M}}^\vee}^\circ / Z_{\tilde{G}^\vee}^\circ \arrow[d] \arrow[r] & Z_{(\underline{M}^!)^\vee} / Z_{G^![s]^\vee} \arrow[r] \arrow[d] & 1 \arrow[r] \arrow[d] & 1 \\
+		1 \arrow[r] & K'_1 \arrow[r] \arrow[d] & Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} / Z_{\tilde{G}^\vee}^\circ \arrow[r] \arrow[d] & Z_{(M^!)^\vee}^{\check{\beta}} / Z_{G^![s]^\vee} \arrow[r] \arrow[d] & C_1 \arrow[r] \arrow[d] & 1 \\
+		1 \arrow[r] & K_2 \arrow[r] \arrow[d] & Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} / Z_{\underline{\tilde{M}}^\vee}^\circ \arrow[r] \arrow[d] & Z_{(M^!)^\vee}^{\check{\beta}} / Z_{(\underline{M}^!)^\vee} \arrow[r] \arrow[d] & C_2 \arrow[r] & 1 \\
+        & 1 & 1 & 1 & &
+	\end{tikzcd}\]
+	where $K_2, K_3$ (resp.\ $C_1$, $C_2$) are defined to be the kernels (resp.\ cokernels); they are all finite. The second and the third columns are readily seen to be exact, hence so is the first column by the Snake Lemma.
+	Next, observe that $|K_3|^{-1} = i_{\underline{M}^!}(\tilde{G}, G^![s])$ as in the case of $|K_1|^{-1}$. Hence
+	\begin{align*}
+		i_{M^!}(\tilde{G}, G^![s]) & = |K_1|^{-1} = |K'_1|^{-1} (K_1 : K'_1)^{-1} \\
+		& = |K_2|^{-1} |K_3|^{-1} (K_1 : K'_1)^{-1} \\
+		& = |K_2|^{-1} i_{\underline{M}^!}(\tilde{G}, G^![s]) (K_1 : K'_1)^{-1}.
+	\end{align*}
+	It remains to prove that
+	\begin{equation*}
+		|K_2| (K_1 : K'_1) = \left( Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} : Z_{\underline{\tilde{M}}^\vee}^\circ \right)  i^{G^![s]}_{M^!}(\epsilon[s]) \cdot \frac{\|\check{\beta}\|}{\|\check{\alpha}\|} .
+	\end{equation*}
+	Using the third row of the diagram and \eqref{eqn:iGM-jump}, we see $|K_2| = \left( Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} : Z_{\underline{\tilde{M}}^\vee}^\circ \right)  i^{G^![s]}_{M^!}(\epsilon[s]) |C_2|$, thus we are reduced to proving
+	\begin{equation*}
+		|C_2| (K_1 : K'_1) = \frac{\|\check{\beta}\|}{\|\check{\alpha}\|}.
+	\end{equation*}
+	When $\alpha$ is short, we have seen that $K_1 = K'_1$, $\|\check{\alpha}\| = \|\check{\beta}\|$ whilst $C_2 = \{1\}$ (upon replacing $\tilde{G}$ by $\underline{\tilde{M}}$). The required equality follows at once.
+	Hereafter, suppose that $\alpha$ is long. Write $\tilde{G} = \prod_{i \in I} \GL(n_i) \times \Mp(2n)$. Without loss of generality, we may express $\alpha = 2\epsilon_i$ under the usual basis for $\Sp(2n)$. The index $i$ must fall under a $\GL$-factor of $M$ that embeds into $\Sp(2n)$. Moreover, $\check{\alpha} = \check{\epsilon}_i$ and $\check{\beta} = 2\check{\epsilon}_i$. It is clear that
+	\begin{gather*}
+		Z_{\tilde{M}^\vee}^\circ = Z_{(M^!)^\vee}^\circ , \quad Z_{\tilde{M}^\vee}^{\hat{\alpha}^*} = Z_{\underline{\tilde{M}}^\vee}^\circ = Z_{(\underline{M}^!)^\vee}^\circ, \\
+		(K_1 : K'_1 ) = \left( Z_{(M^!)^\vee}^\circ \cap Z_{G^![s]^\vee} : Z_{(\underline{M}^!)^\vee}^\circ \cap Z_{G^![s]^\vee} \right).
+	\end{gather*}
+	Thus it remains to verify in this case that
+	\begin{equation}\label{eqn:jump-m-aux}
+		\left( Z_{(M^!)^\vee}^{\check{\beta}} : Z_{(\underline{M}^!)^\vee} \right) \left( Z_{(M^!)^\vee}^\circ \cap Z_{G^![s]^\vee} : Z_{(\underline{M}^!)^\vee}^\circ \cap Z_{G^![s]^\vee} \right) = 2.
+	\end{equation}
+	Observe that \eqref{eqn:jump-m-aux} involves only the objects on the endoscopic side. We may write
+	\[ G^![s] = \prod_{i \in I} \GL(n_i) \times \SO(2n'+1) \times \SO(2n''+1), \quad n' + n'' = n. \]
+	The first step is to reduce to the case $I = \emptyset$ and $n'' = 0$. Indeed, $M^!$ and $\underline{M}^!$ decompose accordingly, and the construction of $\underline{M}^!$ takes place inside either $\SO(2n'+1)$ or $\SO(2n''+1)$, on which $\beta$ lives. Hence we may rename $G^![s]$ to $G^!$ and assume $G^! = \SO(2n+1)$.
+	Accordingly, we can write $M^! = \prod_{j=1}^k \GL(m_j) \times \SO(2m+1)$ where $m \in \Z_{\geq 0}$, such that $\check{\beta}$ factors through the dual of $\GL(m_1)$, so that $\underline{M}^!$ is obtained by merging $\GL(m_1)$ with $\SO(2m'+1)$ to form a larger Levi subgroup of $G^!$.
+	\begin{itemize}
+		\item Suppose $m=0$, then the first index in \eqref{eqn:jump-m-aux} is $1$ since
+		\[ Z_{(M^!)^\vee}^{\check{\beta}} = \{\pm 1\} \times \prod_{j \geq 2} \CC^\times = Z_{(\underline{M}^!)^\vee}. \]
+		On the other hand, $Z_{(M^!)^\vee}^\circ \cap Z_{(G^!)^\vee} = Z_{(G^!)^\vee} = \{\pm 1\}$ and $Z_{(\underline{M}^!)^\vee}^\circ \cap Z_{(G^!)^\vee} = \{1\}$, so the second index is $2$. Hence \eqref{eqn:jump-m-aux} is verified.
+		\item Suppose $m \geq 1$, then
+		\[ Z_{(M^!)^\vee}^{\check{\beta}} = \{\pm 1\} \times \prod_{j \geq 2} \CC^\times \times \{\pm 1\} ,\]
+		whilst $Z_{(\underline{M}^!)^\vee}$ has only one $\{\pm 1\}$-factor diagonally embedded, so the first index is $2$. On the other hand,
+		\[ Z_{(M^!)^\vee}^\circ = \prod_{j \geq 1} \CC^\times \times \{1\} \]
+		intersects trivially with $Z_{(G^!)^\vee} \simeq \{\pm 1\}$, so the second index is $1$. Again, \eqref{eqn:jump-m-aux} is verified.
+	\end{itemize}
+	Summing up, the case of long roots is completed.
+\end{proof}
+\part{Abstract Algebra}
+\chapter{Group Theory}
+\intro{
+    In mathematics, rigor is not everything, but without it there is nothing. Proofs that are not rigorous are trivial.
+    \rightline{----H.Poincar$\mathrm{\acute{e}}$}
+    }
+\\
+\headrule
+\startcontents
+\printcontents{}{1}{}
+\section{Group Theory \& Group Structures}
+\subsection{Multiplicative \texorpdfstring{$\shK_2$-torsors}{K2-torsors}}
+The main reference is \cite{BD01}. Fix a base scheme $S$. Let $G, A$ be sheaves of groups over $S_\text{Zar}$ with $(A,+)$ commutative. Consider the \emph{central extensions} of $G$ by $A$
+\[ 0 \to A \to E \stackrel{p}{\to} G \to 1. \]
+This means that $p$ is an epimorphism between sheaves and $A \simeq \Ker(p)$. It is known \cite[Exp VII, 1.1.2]{SGA7-1} that $E$ is an $A$-torsor over $G$ in this context; in particular, $E \to G$ is Zariski-locally trivial. We will make frequent use of the shorthand $A \hookrightarrow E \twoheadrightarrow G$. % General formalism for torsors --- \cite[Exp IV.5.1]{SGA3-1}
+
+As in the set-theoretical case, the adjoint action of $G$ on itself lifts to $E$, which we still denote as $\tilde{x} \mapsto g\tilde{x}g^{-1}$ where $g \in G$ and $\tilde{x} \in E$: it is the conjugation by any preimage of $g$ in $E$. To any central extension we may associate the \emph{commutator pairing} $G \times G \to A$. Set-theoretically, it is simply
+\begin{equation}\label{eqn:commutator}
+	[x,y] := \tilde{x}\tilde{y}\tilde{x}^{-1}\tilde{y}^{-1}
+\end{equation} \index{[x,y]@$[x,y]$}
+where $\tilde{x}, \tilde{y}$ are preimages of $x,y$ in $E$.
+
+We have the following basic operations on $E$:
+\begin{itemize}
+	\item the pull-back $f^* E$ by a homomorphism $f: G_1 \to G$;
+	\item the push-out $h_* E$ by a homomorphism $h: A \to A_1$, as torsors this amounts to $A_1 \overset{A,h}{\wedge} E$.
+\end{itemize}
+Up to a canonical isomorphism, the order of pull-back and push-out can be changed.
+\begin{itemize}
+	\item Given two central extensions $E_1 \to G_1$ and $E_2 \to G_2$ by the same sheaf $A$, we have the \emph{contracted product}\index{contracted product} $A \hookrightarrow E_1 \utimes{A} E_2 \twoheadrightarrow G_1 \times G_2$: it is the push-out of central extension $E_1 \times E_2 \to G_1 \times G_2$ (by $A \times A$) by $+: A \times A \to A$;
+	\item when $G_1 = G_2$, the \emph{Baer sum} $E_1 + E_2$ of $E_1, E_2$ can be realized by pulling $E_1 \utimes{A} E_2$ back via the diagonal $G \hookrightarrow G \times G$.
+\end{itemize}
+ 
+Given $f: G_1 \to G$, a homomorphism $\varphi: E_1 \to E$ covering (or lifting) $f$ is a commutative diagram of sheaves of groups
+\[\begin{tikzcd}
+	0 \arrow{r} & A \arrow{r} \arrow{d}[right]{\identity} & E_1 \arrow{r} \arrow{d}[right]{\varphi} & G_1 \arrow{d}[right]{f} \arrow{r} & 1 \\
+	0 \arrow{r} & A \arrow{r} & E \arrow{r} & G \arrow{r} & 1
+\end{tikzcd}\]
+Denote by $\cate{CExt}(G,A)$ \index{CExt@$\cate{CExt}(G,A)$}the category of central extensions of $G$ by $A$, with morphisms being the homomorphisms $E \to E_1$ covering $\identity_G$. This makes $\cate{CExt}(G, A)$ a groupoid equipped with the ``addition'' given by Baer sum, subject to the usual functorial constraints; such a structure is called a \emph{Picard groupoid}. In general, giving $\varphi: E_1 \to E$ covering $f: G_1 \to G$ is the same as giving a morphism $E_1 \to f^* E$ in $\cate{CExt}(G_1, A)$.
+
+In \cite{BD01}, the framework of central extensions is reformulated in terms of \emph{multiplicative $A$-torsors} as in \cite[Exp VII]{SGA7-1}. These are $A$-torsors $p: E \to G$ equipped with a ``multiplication'' $m: \text{pr}_1^* E + \text{pr}^*_2 E \rightiso \mu^* E$, where
+\begin{compactitem}
+	\item $\mu: G \times G \to G$ is the multiplication,
+	\item $G \xleftarrow{\text{pr}_1} G \times G \xrightarrow{\text{pr}_2} G$ are the projections,
+	\item the $+$ signifies the Baer sum of $A$-torsors over $G \times G$.
+\end{compactitem}
+Furthermore, $m$ is required to render the following diagram of $A$-torsors over $G \times G \times G$ commutative
+\[\begin{tikzcd}
+	& \text{pr}_1^* E + \text{pr}_2^* E + \text{pr}_3^* E \arrow{rd}{m \times \identity} \arrow{ld}[swap]{\identity \times m} & \\
+	\text{pr}_1^* E + \text{pr}_{23}^* \mu^* E \arrow{d}[swap]{\simeq} & & \text{pr}_{12}^* \mu^* E + \text{pr}_3^* E \arrow{d}{\simeq} \\
+	\text{pr}_1^* E + \mu_{23}^* E \arrow{d}[swap]{(\identity \times \mu)^*(m)} & & \mu_{12}^* E + \text{pr}_3^* E \arrow{d}{(\mu \times \identity)^*(m)} \\
+	(\identity \times \mu)^* \mu^* E \arrow{r}[above]{\sim} & \mu_{123}^* E & (\mu \times \identity)^* \mu^* E \arrow{l}[above]{\sim}
+\end{tikzcd}\]
+where $\mu_{123} = \mu \circ \mu_{ij}: G \times G \times G \to G$ are the morphisms that multiply the slots in the subscript. In forming the diagram we used the compatibility between pull-back and Baer sum. The resulting groupoid of multiplicative torsors is denoted by $\cate{MultTors}(G,A)$.
+
+Given a central extension $A \hookrightarrow E \twoheadrightarrow G$, taking $m$ to be the group law of $E$ gives rise to a multiplicative $A$-torsor $E$ over $G$. By \cite[Exp VII, 1.6.6]{SGA7-1}, this establishes an equivalence $\cate{CExt}(G,A) \rightiso \cate{MultTors}(G,A)$.
+% The objects of $\cate{MultTors}(G,A)$ are therefore \emph{pointed}: let $e \in G(S)$ denote the identity section, then $e^* E$ is equipped with the $S$-point corresponding to $1_E$, if $E$ is seen as a central extension of groups.
+
+Let $\shK_n$ be the Zariski sheaves associated to Quillen's $K$-groups $K_n$, for $n \in \Z_{\geq 0}$; note that $\shK_0 \simeq \Z$ and $\shK_1 \simeq \Gm$ canonically. Several observations are in order.
+\begin{enumerate}
+	\item By \cite[IV.6.4]{Wei13}, $K_n$ transforms products of rings to products of abelian groups. In parallel, $\shK_n(U_1 \sqcup U_2) = \shK_n(U_1) \times \shK_n(U_2)$ for disjoint union of schemes: in fact, the latter holds for any sheaf.
+	\item The stalk of $\shK_n$ at any point $s$ of $S$ equals $K_n(\mathcal{O}_{S,s})$, where $\mathcal{O}_{S,s}$ stands for the local ring. Indeed, this is readily reduced to the case of affine $S$. Then one can use the fact that $K_n$ commutes with filtered $\varinjlim$, see \cite[IV. 6.4]{Wei13}.
+	\item Consider a multiplicative $\shK_2$-torsor $E \to G$. When $S = \Spec(R)$ where $R$ is a field or a discrete valuation ring, there is a central extension
+		\[ 1 \to K_2(S) \to E(S) \to G(S) \to 1 \]
+		of groups. Indeed, $\shK_2(S) = K_2(S)$ by the previous observation; when $R$ is a field we have $H^1(S, \shK_2)=0$ for dimension reasons (true if $\shK_2$ is replaced by any $A$), and the same holds if $R$ is a discrete valuation ring by \cite[Corollary 3.5]{Weis16} (only for $\shK_2$).
+\end{enumerate}
+
+\chapter{Rings}
+\chapter{Modules}
+\chapter{Fields \& Galois Theory}
+\chapter{The Structure of Fields}
+\chapter{Commutative Rings \& Modules}
+\chapter{The Structure of Rings}
+
+\part{Modern Algebra}
+
+\chapter{More Category Theory}
+\headrule
+\startcontents
+\printcontents{}{1}{}
+\section{More Functor}
+\section{Abelian Categories}
+\section{Monoidal Categories}
+\section{Special Limits}
+\section{Kan Extensions}
+\chapter{Introduction to Homological Algebra}
+\chapter{Introduction to Commutative Algebra}
+\chapter{Introduction to Algebraic Geometry}
+
+\begin{Definition}{}{}
+	In view of Proposition \ref{prop:Levi-central-twist}, we may define the \emph{collective geometric transfer} $\Trans^{\Endo}$ as
+	\begin{equation*}\begin{tikzcd}[row sep=tiny]
+		\orbI_{\asp}(\tilde{G}) \otimes \mes(G) \arrow[r, "{\Trans^{\Endo}}" inner sep=0.8em] & \orbI^{\Endo}(\tilde{G}) \\
+		\orbI_{\asp, \cusp}(\tilde{G}) \otimes \mes(G) \arrow[phantom, u, "\subset" description, sloped] \arrow[r, "{\Trans^{\Endo}_{\cusp}}"'] & \orbI^{\Endo}_{\cusp}(\tilde{G}) \arrow[phantom, u, "\subset" description, sloped]
+	\end{tikzcd}\end{equation*}mapping $f$ to $\left( \Trans_{\mathbf{G}^!, \tilde{G}}(f)\right)_{\mathbf{G}^! \in \Endo_{\elli}(\tilde{G})}$. When $F$ is Archimedean, it is continuous and restricts to
+	\[ \Trans_{\mathbf{G}^!, \tilde{G}}: \orbI_{\asp}(\tilde{G}, \tilde{K}) \otimes \mes(G) \to \orbI^{\Endo}(\tilde{G}, \tilde{K}); \]
+	ditto for the case with subscripts ``$\cusp$'' (see Theorem \ref{prop:geom-transfer}).
+	Taking transpose yields the collective transfer of distributions
+	\[ \trans^{\Endo}: \bigoplus_{\mathbf{G}^! \in \Endo_{\elli}(\tilde{G})} SD(G^!) \otimes \mes(G^!)^\vee \to D_-(\tilde{G}) \otimes \mes(G)^\vee . \]
+These notions extend immediately to groups of metaplectic type.
+\end{Definition}
+% \begin{remark}
+%     The Test 1
+% \end{remark}
+% \begin{remark}
+%     The Test 1
+% \end{remark}
+
+\begin{Proposition}{Dirichlet BVP on the Upper Half Plane.}{}
+Suppose that $f: \mathbb{R} \rightarrow \mathbb{R}$ is continuous and both $\lim_{x \to -\infty} f(x) $ and $\lim_{x \to +\infty} f(x) $ exist and are finite. Then $u: \mathbb{H} \rightarrow \mathbb{R}$ define by the integral 
+$$ u(z) = \operatorname{Re}(\frac{1}{\pi i}) \int_{-\infty}^{+\infty} \frac{f(t)}{t-z}\mathrm{d}t, $$ is the unique solution to the Dirichlet BVP:$$\nabla^{2}u=0 \quad in \quad \mathbb{H} \quad u=f \quad on \quad \partial \mathbb{H} $$
+\end{Proposition}
+
+\begin{proof}
+    For any $z_0 \in \mathbb{H}$, consider the biholomorphism
+    $$
+    \psi(z)=\frac{z-z_0}{z-\bar{z}_0}
+    $$
+    which maps $\mathbb{H}$ onto $\mathbb{D},(-\infty,+\infty)$ onto $\partial \mathbb{D} \backslash\{1\}$, and $z_0$ to 0 . Then $\psi \circ f$ is continuous on $\partial \mathbb{D} \backslash\{1\}$ and bounded on $\partial \mathbb{D}$. By Theorem 4.79 and the remark after it, there exists a unique bounded harmonic function $v: \mathbb{D} \rightarrow \mathbb{R}$ such that $v=\psi \circ f$ on $\partial \mathbb{D} \backslash\{1\}$. Hence $u:=\psi^{-1} \circ v$ is the unique solution to the Dirichlet BVP on $\mathbb{H}$.
+    Now we turn to the computation of the explicit formula of the solution. By mean value property we have
+    $$
+    \nu(0)=\frac{1}{2 \pi} \int_0^{2 \pi} \nu\left(\mathrm{e}^{\mathrm{i} \theta}\right) \mathrm{d} \theta
+    $$
+    Since $\psi$ maps $(-\infty,+\infty)$ onto $\partial \mathbb{D} \backslash\{1\}$,
+    $$
+    \mathrm{e}^{\mathrm{i} \theta}=\frac{t-z_0}{t-\bar{z}_0} \Rightarrow \theta=-\mathrm{i} \log \left(\frac{t-z_0}{t-\bar{z}_0}\right)
+    $$
+    Take the differential:
+    $$
+    \mathrm{d} \theta=-\mathrm{i} \frac{t-\bar{z}_0}{t-z_0} \cdot\left(-\frac{\bar{z}_0-z_0}{\left(t-\bar{z}_0\right)^2}\right) \mathrm{d} t=\mathrm{i} \frac{\bar{z}_0-z_0}{\left(t-z_0\right)\left(t-\bar{z}_0\right)} \mathrm{d} t=\frac{2 \operatorname{Im} z_0}{t^2-2 t \operatorname{Re} z_0+\left|z_0\right|^2} \mathrm{~d} t=\operatorname{Re}\left(\frac{2}{\mathrm{i}\left(t-z_0\right)}\right) \mathrm{d} t
+    $$
+    Since $v(0)=u\left(z_0\right)$, we have
+    $$
+    u\left(z_0\right)=\frac{1}{2 \pi} \int_{-\infty}^{+\infty} f(t) \operatorname{Re}\left(\frac{2}{\mathrm{i}\left(t-z_0\right)}\right) \mathrm{d} t=\operatorname{Re}\left(\frac{1}{\pi \mathrm{i}} \int_{-\infty}^{+\infty} \frac{f(t)}{t-z} \mathrm{~d} t\right)
+    $$, Therefore the proposition is proved.
+
+\end{proof}
+\begin{theorem}{1.1.1}{}
+\textbf{Nested Interval Property (NIP).} For each $n\in \mathbb{N}$, assume we have an interval $I_{n}=[a_{n}, b_{n}]=\{x \in \mathbb{R}|a_{n} \leq x \leq b_{n}\}$ and that $I_{n+1}$ is a set of $I_{n}$. Then, the resulting nested sequence of closed intervals
+\begin{equation*}
+    I_1 \supseteq I_2 \supseteq I_3 \supseteq I_4 \supseteq ...
+\end{equation*}
+has a non empty intersection; that is, $\cap_{n=1}^{\infty} I_{n}$ is not equal to nonempty set.
+\end{theorem}
+\begin{proof}
+    Exercis.
+\end{proof}
+\begin{Lem}\label{prop:horocycle-fiber}
+	The morphisms $p, q$ are both $G^{\mathrm{op}} \times G$-equivariant. Moreover, $q$ is smooth affine and surjective, and for all $g_1, g_2 \in G$ we have 
+	\[ q^{-1}\left( [g_1 U, U g_2] \right) = \{B g_1^{-1}\} \times g_1 U g_2 . \]
+	In particular, $q^{-1}([g_1 U, g_2])$ is naturally a left $g_1 U g_1^{-1}$-torsor.
+\end{Lem}
+\begin{proof}
+	The following diagram is Cartesian
+	\[\begin{tikzcd}
+		Y \times G \arrow[r, "\beta"] \arrow[d, "\alpha"'] & \mathcal{B} \times G \arrow[d, "q"] \\
+		Y \times Y \arrow[r, "\gamma"'] & \mathcal{Y}
+	\end{tikzcd}\]
+	where $\alpha(y, g) = (y, y g)$, $\beta(y, g) = (T y, g)$ and $\gamma(y_1, y_2) = [y_1^{-1}, y_2]$. Therefore, by descent along $T$-torsors, it suffices to show $\alpha$ is smooth affine surjective. Smoothness and surjectivity are straightforward. To show $\alpha$ is affine, we use another Cartesian diagram:
+	\[\begin{tikzcd}
+		\left\{ (g, h_1, h_2) \in G^3: h_1 g h_2^{-1} \in U \right\} \arrow[r] \arrow[d, "{\alpha'}"'] & Y \times G \arrow[d, "\alpha"] \\
+		G \times G \arrow[r] & Y \times Y
+	\end{tikzcd} \quad \begin{tikzcd}
+		(g, h_1, h_2) \arrow[mapsto, r] \arrow[mapsto, d] & (U h_1, g) \\
+		(h_1, h_2) \arrow[mapsto, r] & (Uh_1, Uh_2)
+	\end{tikzcd}\]
+	The upper-left corner is closed in $G^3$, hence $\alpha'$ is affine. This property descends to $\alpha$ along $G \times G \twoheadrightarrow Y \times Y$.
+	
+	The description of $q^{-1}([g_1 U, U g_2])$ follows from $\alpha^{-1}(U g_1^{-1}, U g_2) = \{U g_1^{-1} \} \times g_1 U g_2$.
+\end{proof}
+
+\begin{theorem}{}{}
+    \index{transfer}
+	\index{TGG@$\Trans_{\mathbf{G}^{"!}, \tilde{G}}$}
+	Given $\mathbf{G}^! \in \Endo(\tilde{G})$, there exists a linear map
+	\[\begin{tikzcd}[row sep=tiny]
+		\Trans = \Trans_{\mathbf{G}^!, \tilde{G}}: \orbI_{\asp}(\tilde{G}) \otimes \mes(G) \arrow[r] & S\orbI(G^!) \otimes \mes(G^!)\\
+		f \arrow[mapsto, r]& f^{G^!}
+	\end{tikzcd}\]
+	such that for all $\delta \in \Sigma_{G\text{-reg}}(G^!)$, we have
+	\[ \sum_{\delta \in \Gamma_{\mathrm{reg}}(G)} \Delta_{\mathbf{G}^!, \tilde{G}}(\delta, \tilde{\gamma}) f_{\tilde{G}}(\tilde{\gamma}) = f^{G^!}(\delta) \]
+	where $\tilde{\gamma} \in \rev^{-1}(\gamma)$ is arbitrary, with the aforementioned convention on Haar measures.
+	
+	When $F$ is Archimedean, $\Trans$ is continuous and it restricts to
+	\[ \orbI_{\asp}(\tilde{G}, \tilde{K}) \otimes \mes(G) \to S\orbI(G^!, K^!) \otimes \mes(G^!), \]
+	where $K \subset G(F)$ and $K^! \subset G^!(F)$ are maximal compact subgroups.
+\end{theorem}
+% \begin{Example}{Yet another section-based Example}{sec_example3}
+% \end{Example}
+\begin{skPf}    
+\end{skPf}
+\begin{Definition}{}{}
+	Let $Z$ be a smooth $G$-variety. The $G$-action on $Z$ induces a homomorphism $U(\mathfrak{g}) \to D_Z$ of $\Bbbk$-algebras. Consider a $\mathscr{D}_Z$-module $\mathcal{M}$.
+	\begin{enumerate}
+		\item We say that $\mathcal{M}$ is $G$-equivariant, if it is endowed with an isomorphism of $\mathscr{D}_{Z \times G}$-modules
+		\[ \varphi: a^* \mathcal{M} \rightiso \mathrm{pr}_1^* \mathcal{M} =  \mathcal{M} \boxtimes \mathscr{O}_G \]
+		subject to the cocycle condition that
+		\[\begin{tikzcd}[column sep=small]
+			p_1^* a^* \mathcal{M} \arrow[rr, "{p_1^* \varphi}"] \arrow[d, "\simeq"'] & & p_1^* \mathrm{pr}_1^* \mathcal{M} \arrow[d, "\simeq"] \\
+			p_0^* a^* \mathcal{M} \arrow[rd, "{p_0^* \varphi}"'] & & p_2^* \mathrm{pr}_1^* \mathcal{M} \\
+			& p_0^* \mathrm{pr}_1^* \mathcal{M} \simeq p_2^* a^* \mathcal{M} \arrow[ru, "{p_2^* \varphi}"'] &
+		\end{tikzcd} \qquad \begin{tikzcd}
+			i^* a^* \mathcal{M} \arrow[r, "{i^* \varphi}"] \arrow[d, "\simeq"'] & i^* \mathrm{pr}_1^* \mathcal{M} \arrow[d, "\simeq"] \\
+			\mathcal{M} \arrow[r, "\identity"'] & \mathcal{M}
+		\end{tikzcd}\]
+		are commutative diagrams.
+		\item Let $\chi: \mathfrak{g} \to \Bbbk$ be a character of Lie algebras; let $\mathscr{O}_{G, \chi}$ be the trivial line bundle $\mathscr{O}_G$ equipped with the integrable connection $\nabla_\theta u = \theta u - \chi(\theta) u$ for all $\theta \in \mathfrak{g}$, viewed as a right invariant vector field. Then $\mathscr{O}_{G, \chi}$ is a $\mathscr{D}_G$-module: $\theta$ maps $f \in \mathscr{O}_{G, \chi}$ to $\theta f$ (the usual derivative in $\mathscr{O}_G$) plus $\chi(\theta) f$. We say that $\mathcal{M}$ is $(G, \chi)$-monodromic if it is endowed with an isomorphism of $\mathscr{D}_{Z \times G}$-modules
+		\[ \varphi: a^* \mathcal{M} \rightiso \mathcal{M} \boxtimes \mathscr{O}_{G, \chi} \]
+		subject to cocycle condition. For trivial $\chi$ we recover the notion of $G$-equivariance.
+		\item We say that $\mathcal{M}$ is weakly $G$-equivariant, if the $\varphi$ above is only an isomorphism of $\mathscr{D}_Z \boxtimes \mathscr{O}_G$-modules.
+	\end{enumerate}
+	Note that if $\chi$ lifts to a character $\tilde{\chi}: G \to \Gm$, we have $\mathscr{O}_{G, \chi'} \rightiso \mathscr{O}_{G, \chi + \chi'}$ by $f \mapsto \tilde{\chi} f$ for any $\chi'$.
+
+	The $G$-equivariant (resp.\ weakly $G$-equivariant, $(G, \chi)$-monodromic) $\mathscr{D}_Z$-modules form an abelian category for any given $\chi$: the morphisms are required to respect $\varphi$.
+\end{Definition}
+
+\begin{Example}{}{}
+	Let $Z$ be a $G$-variety over a field $\Bbbk$ of characteristic zero, and $K$ be a subgroup of $G$, so that the notion of $(\mathfrak{g}, K)$-module is defined. The localization functor (non-derived) is
+	\[ \Loc_Z: U(\mathfrak{g}) \dcate{Mod} \to \mathscr{D}_Z \dcate{Mod}, \quad W \mapsto \mathscr{D}_Z \dotimes{U(\mathfrak{g})} W. \]
+	When $V$ is a $(\mathfrak{g}, K)$-module, $\Loc_Z(V)$ acquires a weakly $K$-equivariant structure by letting $k \in K$ acting via
+	\[ k \cdot (P \otimes v) = k P k^{-1} \otimes kv, \quad P \in \mathscr{D}_Z, \; v \in V. \]
+	This is readily seen to be well-defined. It is actually equivariant: the $K$-action induces an $\mathfrak{k}$-action on $\Loc_Z(V)$, which is
+	\[ P \otimes v \mapsto (\theta P - P\theta) \otimes v + P \otimes (\theta v) = (\theta P) \otimes v \]
+	for all $\theta \in \mathfrak{k}$ and $P \otimes v \in \Loc_Z(V)$.
+\end{Example}
+
+Another perspective on monodromic modules from \cite[2.5]{BB93} will be needed. Assume henceforth $\Bbbk = \overline{\Bbbk}$. Let $T$ be a $\Bbbk$-torus and $\pi: \tilde{X} \to X$ be a $T$-torsor; $X$ is smooth. Put $\widetilde{\mathscr{D}} := (\pi_* \mathscr{D}_{\tilde{X}})^T$.
+\begin{enumerate}
+	\item For any ideal $\mathfrak{a}$ of $\Sym(\mathfrak{t})$ and any $\widetilde{\mathscr{D}}$-module $\mathcal{M}$, write $\mathcal{M}[\mathfrak{a}] \subset \mathcal{M}$ for the subsheaf annihilated by $\mathfrak{a}$, which is seen to be a $\tilde{\mathscr{D}}$-submodule. Every $\xi \in \mathfrak{t}^*$ corresponds to a maximal ideal $\mathfrak{m}_\xi \subset \Sym(\mathfrak{t})$, and we write
+	\[ \mathcal{M}_\xi := \mathcal{M}[\mathfrak{m}_\xi], \quad \mathcal{M}_{\tilde{\xi}} := \bigcup_{n \geq 1} \mathcal{M}[\mathfrak{m}_\xi^n]. \]
+	Define $\mathcal{M}_{\text{fin}} := \bigcup_{\mathfrak{a}} \mathcal{M}[\mathfrak{a}]$ where $\mathfrak{a}$ ranges over the ideals of finite codimension. Then $\mathcal{M}_{\mathrm{fin}} = \bigoplus_\xi \mathcal{M}_{\tilde{\xi}}$.
+
+	\item Since $\pi$ is affine, the study of $\mathscr{D}_{\tilde{X}}$-modules is the same as that of $\pi_* \mathscr{D}_{\tilde{X}}$-modules. Let $\mathfrak{t}^*_{\Z} \subset \mathfrak{t}$ be the lattice of characters from $X^*(T)$. For any ideal $\mathfrak{a} \subset \Sym(\mathfrak{t})$ and a $\pi_* \mathscr{D}_{\tilde{X}}$-module $\mathcal{N}$, we define the submodule
+	\begin{equation*}
+		\mathcal{N}[\overline{\mathfrak{a}}] := \sum_{\xi \in \mathfrak{t}^*_{\Z}} \mathcal{N}[\xi^* \mathfrak{a}],
+	\end{equation*}
+	where
+	\begin{equation*}
+		\xi^* \in \Aut_{\Bbbk}(\Sym(\mathfrak{h})): \mathfrak{h} \ni \chi \mapsto \xi + \xi(\chi).
+	\end{equation*}
+	The same recipe above yields, for each $\overline{\xi} \in \mathfrak{t}^*/\mathfrak{t}^*_{\Z}$ one defines
+	\[ \mathcal{N}_{\overline{\xi}} \subset \mathcal{N}_{\widetilde{\overline{\xi}}} \subset \mathcal{N}_{\mathrm{fin}} := \bigcup_{\substack{\mathfrak{a}: \text{ideal} \\ \mathrm{codim} < \infty}} \mathcal{N}[\overline{\mathfrak{a}}]. \]
+\end{enumerate}
+
+Fix $\xi \in \mathfrak{t}^*$ and let $\overline{\xi}$ be its class modulo $\mathfrak{t}^*_{\Z}$. We are interested in the modules $\mathcal{M}$ (resp.\ $\mathcal{N}$) satisfying
+\[ \mathcal{M} = \mathcal{M}_{\mathrm{fin}}, \quad \mathcal{M} = \mathcal{M}_{\tilde{\xi}}, \quad \text{or } \mathcal{M} = \mathcal{M}_{\xi}, \quad \text{(resp.\ $\mathcal{N} = \mathcal{N}_{\mathrm{fin}}$, etc.)} \]
+By \cite[2.5.3 and 2.5.4]{BB93}, this gives rise to a diagram of abelian (sub)categories
+\begin{equation}\label{eqn:categories} \begin{tikzcd}[column sep=small]
+	\mathscr{D}_{\tilde{X}} \dcate{Mod}_{\overline{\xi}} \arrow[phantom, r, sloped, "\subset" description] \arrow[d, xshift=0.3em, "{\pi_*}"] & \mathscr{D}_{\tilde{X}} \dcate{Mod}_{\widetilde{\overline{\xi}}} \arrow[phantom, r, sloped, "\subset" description] \arrow[d, xshift=0.3em] & \mathscr{D}_{\tilde{X}} \dcate{Mod}_{\mathrm{fin}} = \displaystyle\prod_{\overline{\eta}} \mathscr{D}_{\widetilde{X}} \dcate{Mod}_{\overline{\eta}} \arrow[d, xshift=0.3em] \\
+	(\pi_* \mathscr{D}_{\widetilde{X}}) \dcate{Mod}_{\overline{\xi}} \arrow[phantom, r, sloped, "\subset" description] \arrow[d, xshift=0.3em, "\rho_{\xi}"] \arrow[u, xshift=-0.3em, "{\pi^{-1}}"] & (\pi_* \mathscr{D}_{\widetilde{X}}) \dcate{Mod}_{\widetilde{\overline{\xi}}} \arrow[phantom, r, sloped, "\subset" description] \arrow[d, xshift=0.3em, "\rho_{\widetilde{\xi}}"] \arrow[u, xshift=-0.3em] & (\pi_* \mathscr{D}_{\widetilde{X}}) \dcate{Mod}_{\mathrm{fin}} = \displaystyle\prod_{\overline{\eta}} (\pi_* \mathscr{D}_{\widetilde{X}}) \dcate{Mod}_{\overline{\eta}} \arrow[u, xshift=-0.3em] \\
+	\tilde{\mathscr{D}} \dcate{Mod}_{\xi} \arrow[phantom, r, sloped, "\subset" description] \arrow[u, xshift=-0.3em, "{ (\pi_* \mathscr{D}_{\tilde{X}}) \dotimes{\tilde{\mathscr{D}}} -}"] & \tilde{\mathscr{D}} \dcate{Mod}_{\widetilde{\xi}} \arrow[phantom, r, sloped, "\subset" description] \arrow[u, xshift=-0.3em] & \tilde{\mathscr{D}} \dcate{Mod}_{\mathrm{fin}} = \displaystyle\prod_{\eta} \tilde{\mathscr{D}} \dcate{Mod}_\eta
+\end{tikzcd}\end{equation}
+in which:
+\begin{compactitem}
+	\item the categories in the last two rows have just been defined;
+	\item the pair $(\pi^{-1}, \pi_*)$ realizes an equivalence between $\mathscr{D}_{\tilde{X}} \dcate{Mod}$ and $(\pi_*\mathscr{D}_{\tilde{X}}) \dcate{Mod}$, and this defines the categories in the first row;
+	\item the ``induction'' functor $(\pi_* \mathscr{D}_{\tilde{X}}) \dotimes{\tilde{\mathscr{D}}} -$ also turns out to give equivalences $(\pi_* \mathscr{D}_{\tilde{X}}) \dcate{Mod}_{\widetilde{\overline{\xi}}} \to \tilde{\mathscr{D}} \dcate{Mod}_{\widetilde{\xi}}$ and $(\pi_* \mathscr{D}_{\tilde{X}}) \dcate{Mod}_{\overline{\xi}} \to \tilde{\mathscr{D}} \dcate{Mod}_{\xi}$, with quasi-inverses
+	\[ \rho_{\widetilde{\xi}}: \mathcal{N} \mapsto \bigcup_{n \geq 1} \mathcal{N}[\mathfrak{m}_\xi^n], \quad \rho_{\xi}: \mathcal{N} \mapsto \mathcal{N}[\mathfrak{m}_\xi] \]
+	respectively.
+\end{compactitem}
+
+Let us link the first and the third rows in \eqref{eqn:categories}. According to \cite[1.8.9]{BB93}, the inclusions $\mathscr{O}_{\tilde{X}} \hookrightarrow \mathscr{D}_{\tilde{X}}$ and $\mathscr{O}_X \hookrightarrow \tilde{\mathscr{D}}$ induce
+\begin{equation}\label{eqn:N-M}
+	\mathscr{O}_{\tilde{X}} \dotimes{\pi^{-1} \mathscr{O}_X} \pi^{-1} \mathcal{M} \rightiso \mathscr{D}_{\tilde{X}} \dotimes{\pi^{-1} \tilde{\mathscr{D}}} \pi^{-1} \mathcal{M} \simeq \pi^{-1}\left( \pi_* \mathscr{D}_{\tilde{X}} \dotimes{\tilde{\mathscr{D}}} \mathcal{M}  \right), \quad \mathcal{M} \in \tilde{\mathscr{D}}\dcate{Mod}.
+\end{equation}
+
+Furthermore, $\tilde{\mathscr{D}} \dcate{Mod}_\xi$ is equivalent to $\mathscr{D}_\xi \dcate{Mod}$, where $\mathscr{D}_\xi := \tilde{\mathscr{D}} / \mathfrak{m}_\xi \tilde{\mathscr{D}}$ is the sheaf on $X$ of locally trivial \emph{twisted differential operators} (TDO's) associated with $\xi \in \mathfrak{t}^*$; see \cite[2.1]{BB93}. In this article, we prefer to connect $\tilde{\mathscr{D}} \dcate{Mod}_\xi$ to $(T, \xi)$-monodromic $\mathscr{D}_{\tilde{X}}$-modules as follows.
+\begin{exercise}{}{}
+Compute $H^*_{DR}(\mathbb{R}^2-P-Q)$ where $P$ and $Q$ are two points in $\mathbb{R}^2$. Find the closed forms that represent the cohomology classes. 
+% \begin{proof}[Solution]
+\begin{Soln}
+Clearly $H^0_{DR}(\mathbb{R}^2-P-Q)=\mathbb{R}$. Note that moving $P$ and $Q$ around is an diffeomorphism, we may assume that $P=(0,0)$ and $Q=(2,0)$.\\
+For the computation of $H_{DR}^1(\mathbb{R}^2-P-Q)$, let $\gamma_1$ be the unit circle centered at the origin, $\gamma_2$ be the unit circle centered at $Q=(2,0)$, and we claim that the linear map $H_{DR}^1(\mathbb{R}^2-P-Q)\to \mathbb{R}^2:[\omega]\mapsto (\int_{\gamma_1}\omega ,\int_{\gamma_2}\omega ) $ is an isomorphism. This map is well-defined, vanishing on exact forms as 
+\[\int_\gamma \dif f = \int_a^b \dif (f\circ \gamma)= f(\gamma(b))-f(\gamma(a))\xlongequal{\gamma(a)=\gamma(b)} 0.\] 
+Also, there clearly exist forms such that $\int_{\gamma_1}\omega\neq \int_{\gamma_2}\omega$, so by a reflection along $x=1$ we see the surjectivity of the linear map. If we uses the argument principle in complex analysis then we can find easily that the closed form that represents $(1,0)\in \mathbb{R}^2$ is $\frac{1}{2\pi} \frac{xdy-ydx}{x^2+y^2}$ and its translation from $(0,0)$ to $(2,0)$ represents $(0,1)\in \mathbb{R}^2$.
+\\
+For the injectivity, given a closed $1$-form $\omega$ such that $\int_{\gamma_1}\omega =\int_{\gamma_2}\omega =0$, we claim that the integration of $\omega$ on any loop $\ell$ in $\mathbb{R}^2-P-Q$ must be zero by Stokes' theorem in basic calculus. By the Jordan curve theorem, a loop must encircle a bounded region $\Sigma$ in $\mathbb{R}^2$. If the loop does not encircle either $P$ or $Q$, then we apply Stokes' theorem to the region $\Sigma$, getting $ \int_\ell \omega=\int_\Sigma d\omega=0$. A similar argument shows that for any circle $C$ centered at $P$ we have $\int_C\omega=\int_N d\omega=0$ on considering the region $N$ between $C$ and $\gamma_1$ along with $C$ and $\gamma_1$; the same result holds for $Q$. So for any loop that encircles $P$ or $Q$ (or both of them) we take sufficiently small circles $C_P$ or $C_Q$ around $P$ or $Q$ that are disjoint from $\ell$ and apply Stokes' theorem with $\Sigma$ being the region between the circles and the loop along with the circles and the loop, obtaining that 
+\[\int_\ell\omega=\int_\Sigma d\omega- \left(\int_{C_P}\omega\right) -\left(\int_{C_Q}\omega\right)= 0,\]
+where the parameters mean that the terms in the parameters may or may not appear, depending on whether $\ell$ encircles $P$ or $Q$. Now we can define a smooth function $f$ on $\mathbb{R}^2-P-Q$ by integrate $\omega$ along a path $\gamma_x\subset \mathbb{R}^2-P-Q$ from a base-point $x_0$ to another point $x$. This $f$ is well-defined, being independent of the choice of the path $\gamma_x$ by the above result on loops. Apply the mean-value property of integration and we see that $df=\omega$ as desired.
+\b
+The computation of $H_{DR}^2(\mathbb{R}^2-P-Q)$ is exactly the explicit procedure of Mayer-Vietoris sequence: for any $2$-form $\omega$, let $\rho_1$ and $\rho_2$ be the partition of unity with respect to the covering $\{x<\frac{3}{2} \}$ and $\{x>\frac{1}{2}\}$ of $\mathbb{R}^2-P-Q $, then $\rho_1\omega$ and $\rho_2\omega$ are two $2$-forms supported in regions isomorphic to $\mathbb{R}^2-P$. Integration along the distance axis in polar coordinates gives two $1$-forms $\eta_1$ and $\eta_2$ such that $d\eta_i= \rho_i\omega$ for $i=1,2$. Therefore $d(\eta_1+\eta_2)=\omega$, concluding that $H_{DR}^2(\mathbb{R}^2-P-Q)=0$. 
+% \end{proof}
+\end{Soln}
+\end{exercise}
+
+\begin{Remark}{Exterior Differentiation on General Manifolds}{exteriordiff}
+Before we talk about the de Rham theory on $\mathbb{R}^n$, we pause here for a second to see how this $\dif $ for $\mathbb{R}^n$ passes to give a definition of $\dif$ for any manifold $M$. Given an open subset $U$ of $M$, the pullback of the inclusion $U\hookrightarrow M$ gives an isomorphism $\Lambda^k T_p^*M \cong \Lambda^k T_p^* U$ for any $p\in U$ (as a consequence of that $T_pU\cong T_p M$). Union these isomorphisms up and we obtain a smooth embedding $\Lambda^k T^*U\hookrightarrow \Lambda^k T^*M $. Now a form $\omega$ on $U$, which is a section $\omega:U\to \Lambda^k T^*U$, so post-composition by the embedding $\Lambda^k T^*U\hookrightarrow \Lambda^k T^*M $ makes $\omega: U\to \Lambda^k T^*U\hookrightarrow \Lambda^k T^*M $ a local section of $\pi: \Lambda^k T^*M \to M$. In this point of view, for any open covering $\{U_\alpha\}$ of $M$ and a family of k-forms $\{\omega_\alpha\in \Omega^k(U_\alpha)\}$ seeing as local sections $\omega_\alpha:U_\alpha\to \Lambda^k T^*M$, if the restrictions of the forms to each overlap agrees, say $\omega_\alpha \sVert_{U_\alpha\cap U_\beta}=\omega_\beta\sVert_{U_\alpha\cap U_\beta}$ for any $\alpha,\beta$ such that $U_\alpha\cap U_\beta\neq \varnothing$, then by the gluing lemma (\cref{le:gluinglemma}) they glue up to give a global section $\omega:M\to \Lambda^k T^*M$ in $\Omega^k(M)$. Therefore if we want to determine the map $\dif :\Omega^k(M)\to \Omega^{k+1}(M)$, we can determine it ``piece by piece'' and then check if they agree on overlaps.\par
+Let $M$ be covered by a family of coordinate neighborhoods $\{U_\alpha\}$ with corresponding parametrizations $\varphi_\alpha:U_\alpha\to \mathbb{R}^n$. Let $i_\alpha:U_\alpha\hookrightarrow M$ be the inclusions, the idea of the piece-wise definition of $\dif$ is displayed in the diagram below:
+\begin{center}
+    \begin{tikzcd}
+    \Omega^k(M)\arrow[d,swap,"i_\alpha^*"] \arrow[rrr, dashed] & & & \Omega^{k+1}(M)\arrow[d,"i_\alpha^*"]\\
+    \Omega^k(U_\alpha) &\Omega^k(\mathbb{R}^n)\arrow{l}{\cong}[swap]{\varphi_\alpha^*}\arrow[r,"\dif"]&\Omega^{k+1}(\mathbb{R}^n)\arrow{r}{\varphi_\alpha^*}[swap]{\cong}&\Omega^{k+1}(U_\alpha)
+    \end{tikzcd}
+\end{center}
+To express this by words, given a form $\omega\in \Omega^k(M)$, we restrict it to $U_\alpha$ for each $\alpha$ and apply the bottom line in the diagram to get a form $\varphi_\alpha^*\dif(\varphi_\alpha^*)^{-1}(\omega\sVert_{U_\alpha})\in \Omega^{k+1}(U_\alpha)$. As $\alpha$ varies, we get a family of forms $\{ \varphi_\alpha^*\dif(\varphi_\alpha^*)^{-1}(\omega\sVert_{U_\alpha})\}$ sub-coordinate to the covering $\{U_\alpha\}$. If they agree on overlaps, then they glue up to give a form $\Omega^{k+1}(M)$ and defines our map $\dif :\Omega^k(M)\to \Omega^{k+1}(M)$. The linearity of $\dif$ follows from its linearity locally in each $U_\alpha$ (since the linear structure is defined point-wisely). \par
+Now it remains only to check that $\{ \varphi_\alpha^*\dif(\varphi_\alpha^*)^{-1}(\omega\sVert_{U_\alpha})\}$ agree on overlaps. Let $U_\alpha\cap U_\beta\neq \varnothing$, we need to show that $\varphi_\alpha^*\dif(\varphi_\alpha^*)^{-1}= \varphi_\beta^*\dif(\varphi_\beta^*)^{-1}$, which is equivalent to $ (\varphi_\alpha\circ \varphi_{\beta}^{-1})^*\dif(\varphi_\alpha^*)^{-1}= \dif(\varphi_\beta^*)^{-1} $. Since $ \varphi_\alpha\circ \varphi_{\beta}^{-1}$ is a map between Euclidean spaces, $(\varphi_\alpha\circ \varphi_{\beta}^{-1})^* $ commutes with $\dif$ and thus
+\begin{equation}
+    (\varphi_\alpha\circ \varphi_{\beta}^{-1})^*\dif(\varphi_\alpha^*)^{-1}=\dif (\varphi_\alpha\circ \varphi_{\beta}^{-1})^*(\varphi_\alpha^*)^{-1}=\dif (\varphi_\beta^*)^{-1},
+\end{equation}
+as promised. The properties of $\dif$ for $\mathbb{R}^n$ also pass to general manifolds since $\dif$ is determined ``locally''.
+\begin{Proposition}{Properties of Exterior Differentiation}{}
+Let $M$ be a smooth manifold. The exterior differentiation $\dif:\Omega^k(M)\to\Omega^k(M)$ satisfies the following properties:
+\begin{enumerate}[label=(\alph*)]
+    \item $\dif$ is $\mathbb{R}$-linear.
+    \item (Antiderivation) Let $\omega\in \Omega^k(M)$ and $\eta\in \Omega^l(M)$, then
+    \begin{equation*}
+        \dif (\omega\wedge\eta)=(\dif\omega)\wedge\eta+(-1)^k\omega\wedge(\dif\eta).
+    \end{equation*}
+    \item $d^2\coloneqq d\circ d\equiv 0$.
+    \item (Naturality) $\dif $ commutes with pullbacks, i.e. given $F:M\to N$, then
+    \begin{equation*}
+        F^*\dif=\dif F^*,
+    \end{equation*}
+    whenever this composition makes sense.
+\end{enumerate}
+\end{Proposition}
+
+Note that the naturalilty above gives in particular that $F^*(\dif f) = \dif (f\circ F)$ for any $f\in C^\infty(N)$.
+
+The naturality of exterior differentiation can be translated as being a natural transform from the functor $\Omega^k$ and $\Omega^{k+1}$:
+\begin{center}
+    \begin{tikzcd}
+    \Omega^k(M)\arrow[d,swap,"F^*"]\arrow[r,"\dif"] &\Omega^{k+1}(M)\arrow[d,"F^*"]\\
+    
+    \Omega^k(N)\arrow[r,swap,"\dif"] &\Omega^{k+1}(N)
+    \end{tikzcd}
+\end{center}
+It follows that the pullback of forms gives a chain map between chain complexes $\Omega^*(M)$ and $\Omega^*(N)$. Therefore we can define a functor $\Omega^*:\Man \to K(\Vect_\mathbb{R})$ that sends a manifold $M$ to the chain complex $\Omega^*(M)$ and a map $F$ to its induced chain map between chain complexes.
+\end{Remark}
+\vspace{2.333ex}
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{pictures/cut-off_rule.png}
+        % \includegraphics[width=0.4\linewidth]{images/cut-off_rule.png}
+	\vspace{-5ex}
+\end{center}
+\pdfbookmark[1]{封底}{back}
+\hfill {\Large $\mathfrak{The\ End}$ \Coffeecup}
+\vspace{5.555ex}
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{pictures/understand.png}
+        % \includegraphics[width=0.9\linewidth]{images/understand.png}
+\end{center}
+
+
+\clearpage
+\appendix
+\pdfbookmark[1]{Exams}{append:exams}
+
+\pdfbookmark[2]{Midterm}{append:midterm}
+\section*{\bf Midterm \sf\scriptsize (2021/5/5)}
+\begin{Prob}[Tail bounds for decoupled and coupled Gaussian chaos]\ 
+
+Let $\bm{\varepsilon}$ and $\bm{\varepsilon}'$ be independent $\N_{n}(\bm{0}_{n},\bm{I}_{n})$ vectors and $\bm{A} \in \R^{n \times n}$ be a symmetric matrix. 
+\begin{enumerate}[(a)]
+	\setlength{\itemsep}{0pt}
+\item Consider the quadratic form $Y = \bm{\varepsilon}^{\top}\bm{A}\bm{\varepsilon}'$. Show that there exist universal constants $c_{1},c_{2} \in (0,\infty)$ such that for any $t > 0$, \vspace{-2ex}
+\[ \P\{ \abs{Y} \geq t \} \leq c_{1} \exp\!\Big( - \frac{c_{2}t^{2}}{\norm{\bm{A}}_{\mathrm{F}}^{2}+t\normmm{\bm{A}}_{2}} \Big) . \vspace{-1ex}\] 
+\item State a condition on $\bm{A}$ for the quadratic form $Z = \bm{\varepsilon}^{\top}\bm{A}\bm{\varepsilon}$ to have mean zero. 
+\item Prove the same bound as in part (a) for $Z$, where the universal constants may be different.
+\end{enumerate}
+\normalfont Hint: All chi-square random variables are sub-Exponential.
+\end{Prob}
+
+
+\begin{Prob}[Different tail bounds for random vectors]\ 
+
+Let $\bm{X}_{i}$ be i.i.d.\ zero-mean random $d$-dimensional vectors with covariance matrix $\bm{\Sigma}$ such that $\norm{\bm{X}_{i}}_{2} \leq 1$ almost surely. Consider the random vector $\bm{Z} = \frac{1}{n}\sum_{i=1}^{n}\bm{X}_{i}$. 
+\begin{enumerate}[(a)]
+	\setlength{\itemsep}{0pt}
+\item As a union bound lover, Alice notes the fact that $\norm{\bm{Z}}_{2} \leq \sqrt{d}\norm{\bm{Z}}_{\infty}$ and uses Hoeffding's inequality and the union bound to obtain an upper bound for $\P\{ \norm{\bm{Z}}_{2} \geq t \}$. Complete her derivation.
+\item As a matrix bound lover, Bob notes the following Hoeffding's inequality that if $\bm{A}_{i}$'s are independent zero-mean symmetric random matrices satisfying the sub-Gaussian condition with parameters $\bm{V}_{i}$, then for any $t > 0$, \vspace{-2ex}
+\[ \P\bigg\{ \normmmBig{\frac{1}{n}\sum_{i=1}^{n}\bm{A}_{i}}_{2} \geq t \bigg\} \leq 2 \rank{\bm{V}} \exp\!\Big(-\frac{nt^{2}}{2\sigma^{2}}\Big) , \]
+where $\bm{V} = \sum_{i=1}^{n}\bm{V}_{i}$ and $\sigma^{2} = n^{-1}\normmm{\bm{V}}_{2}$, so he constructs suitable matrices $\bm{A}_{i}$ from $\bm{X}_{i}$ to obtain an upper bound for $\P\{ \norm{\bm{Z}}_{2} \geq t \}$. Complete his derivation and compare with Alice's result. 
+\item As a dimension-free bound lover, Charlie follows Bob's construction and finds a sharper tail bound that involves a prefactor of $\tr{\bm{V}}/\normmm{\bm{V}}_{2}$. Determine the prefactor and show that it is indeed dimension-free. 
+\end{enumerate}
+\end{Prob}
+
+
+\begin{Prob}
+Suppose that $(\bm{X}_{1},Y_{1}),\dots,(\bm{X}_{n},Y_{n})$ are i.i.d.\ from the regression model $Y_{i} = f_{\bm{\theta}}(\bm{X}_{i}) + \eps_{i}$, where $f_{\bm{\theta}}$ is the regression function indexed by an unknown parameter $\bm{\theta} \in \R^{k}$ and $\eps_{i}$ is independent of $\bm{X}_{i}$. Consider the least absolute deviation estimator 
+$ \widehat{\bm{\theta}} = \argmin_{\bm{\theta}} \sum_{i=1}^{n} \abs{Y_{i}-f_{\bm{\theta}}(\bm{X}_{i})} . $
+\begin{enumerate}[(a)]
+	\setlength{\itemsep}{0pt}
+\item Derive the asymptotic distribution of $\widehat{\bm{\theta}}$ in the linear case $f_{\bm{\theta}}(\bm{x}) = \bm{\theta}^{\top}\bm{x}$. State any needed assumptions. 
+\item Redo part (a) for general $f_{\bm{\theta}}$. 
+\end{enumerate}
+\end{Prob}
+
+
+\begin{Prob}
+Let $X,X_{1},X_{2},\dots,X_{n}$ be i.i.d.\ from a distribution $P$ on $\R$. Suppose that $P$ has density $p$ with respect to the Lebesgue measure such that $\norm{p}_{L^\infty} < \infty$. Let $K : \R \to \R$ be any Lipschitz continuous function such that $\norm{K}_{L^\infty} \leq K_{\max} < \infty$ and $\int_{\R} K(t) \,\d t = 1$. Consider the kernel density estimator \vspace{-1ex}
+\[ \hat{p}_{n,h}(x) = \frac{1}{nh} \sum_{i=1}^{n} K\Big(\frac{x-X_{i}}{h}\Big) , \quad x \in \R , \vspace{-2ex}\]
+where $h > 0$ is a bandwidth. 
+\begin{enumerate}[(a)]
+	\setlength{\itemsep}{0pt}
+\item Let $\mathcal{F}$ be a class of measurable functions. Prove that for any $t>0$, \vspace{-2ex}
+\[ \P\bigg\{ \max_{1 \leq j \leq n} \sup_{f\in\mathcal{F}} \absBig{\sum_{i=1}^{j}\big(f(X_{i})-Pf\big)} > t \bigg\} \leq 9 \, \P\bigg\{ \sup_{f\in\mathcal{F}} \absBig{\sum_{i=1}^{n}\big(f(X_{i})-Pf\big)} > \frac{t}{30} \bigg\} . \vspace{-2ex}\]
+\item Suppose that $\mathcal{F}$ has a constant  envelope $F$ and there exist constants $A > \e^{2}$ and $V \geq 2$ such that $N(\eps F, \mathcal{F}, L^{2}(Q)) \leq (A/\eps)^{V}$ for any finitely supported probability measure $Q$ and $\eps \in (0,1)$. Prove that \vspace{-1ex}
+\[ \E\bigg[ \sup_{f\in\mathcal{F}} \absBig{\sum_{i=1}^{n}\big(f(X_{i})-Pf\big)} \bigg] \leq L \max\biggl\{ \sigma\sqrt{Vn\log\Big(\frac{AF}{\sigma}\Big)} , VF\log\Big(\frac{AF}{\sigma}\Big) \biggr\} , \vspace{-1ex}\]
+where $L \in (0,\infty)$ is a universal constant and $\sigma^{2} = \sup_{f\in\mathcal{F}} P(f-Pf)^{2}$. 
+\item Suppose that $h_{n} \to 0$, $nh_{n}/\abs{\log h_{n}} \to \infty$, $\abs{\log h_{n}} / \log\log n \to 0$, and $h_{n} \leq c \, h_{2n}$ for some $c > 0$. Prove that \vspace{-1ex}
+\[ \limsup_{n\to\infty} \sqrt{\frac{nh_{n}}{\abs{\log h_{n}}}} \norm{\hat{p}_{n,h_{n}}-p_{h_{n}}}_{L^\infty} = C \]
+almost surely for some constant $C < \infty$, where $p_{h}(x) = \frac{1}{h}\E_{P}[K(\frac{x-X}{h})]$. 
+\end{enumerate}
+\normalfont \textbf{Hint}: Functional concentration inequalities may be applied.
+\end{Prob}
+
+\clearpage
+
+\pdfbookmark[2]{Final}{append:final}
+\section*{\bf Final \sf\scriptsize (2021/6/27)}
+\setcounter{Prob}{0}
+\begin{Prob}
+Suppose you are preparing a research paper. Write an introduction for your paper to summarize the state-of-the-art developments on the topic, comment on the strengths and weaknesses of the existing methods, and motivate your research. You need not describe your research.
+\end{Prob}
+\begin{Prob}
+Suppose you are preparing a two-hour lecture for our course's next offering. Write notes for your lecture to cover the most essential material for understanding the topic. Make sure to include some instructive examples and tailor your material to the two-hour limit.
+\end{Prob}
+
+{\large List of topics and sample references:}
+\begin{enumerate}
+\item Debiased Lasso: inference for sparse regression
+\item The knockoff filter and SLOPE: false discovery rate control in regression 
+\item Robust Lasso
+\item Fused Lasso or total variation denoising
+\item Minimax lower bounds for matrix estimation
+\item New developments in matrix completion
+\item Covariance estimation with latent variables
+\item Sparse directed acyclic graphs
+\item Prediction bounds for deep neural networks
+\item Constrained minimax lower bounds
+\end{enumerate}
+One would go through the sketchy proof of Theorem 19.5 in \cite{vdVaart1998asymptotic} or Section 8.4 of \cite{Kosorok2008Introduction}.
+
+Besides $\mathcal{F}_{]}$, we may consider the parametric class $\mathcal{F}_{\Theta} = \{ f_{\theta} : \theta \in \Theta \subset \R^{d} \}$. Suppose that there exists a measurable function $m \in L^{r}(P)$ such that $\abs{f_{\theta_{1}}(x)-f_{\theta_{2}}(x)} \leq m(x) \norm{\theta_{1}-\theta_{2}}$. The brackets of the type $[f_{\theta} - \eps m, f_{\theta} + \eps m]$ have $L^{r}(P)$-size $2 \eps \norm{m}_{L^{r}(P)}$. If $\theta$ ranges over a grid of meshwidth $\eps$, then the brackets cover $\mathcal{F}_{\Theta}$, because of the
+Lipschitz condition. Thus, we need as many brackets as we need balls of radius $\eps/2$ to cover $\Theta$. Therefore, there exists a constant $K$, depending on $\Theta$ and $d$ only, such that 
+\[ N_{[]}(\eps\norm{m}_{L^{r}(P)}, \mathcal{F}_{\Theta}, L^{r}(P)) \leq K (\operatorname{diam}\Theta/\eps)^{d} , \quad \forall \eps \in (0, \operatorname{diam}\Theta) . \]
+For more examples (e.g., pointwise compact class, Sobolev class, bounded-variation class), see Section 19.2 of \cite{vdVaart1998asymptotic} and Chapter 2.7 of \cite{vdVaart-Wellner-1996-Weak}.
+
+The \textbf{covering number} $N(\eps,\mathcal{F},L^{r}(Q))$ is defined as the minimum number of $L^{r}(Q)$-balls of radius $\eps$ to cover $\mathcal{F}$. Given an envelope function $F$ such that $\sup_{f\in\mathcal{F}} \abs{f(x)} \leq F(x) < \infty \ (\forall x)$, the \textbf{uniform covering number} is $\sup_{Q} N(\eps\norm{F}_{L^{r}(Q)}, \mathcal{F}, L^{r}(Q))$ where the supremum is taken over all finitely supported probability measures $Q$ such that $\norm{F}_{L^{r}(Q)} > 0$.
+The \textbf{uniform entropy integral} is defined to be 
+\[ J(\delta,\mathcal{F},L^{2}) = \int_{0}^{\delta} \sqrt{\log \sup\nolimits_{Q} N(\eps\norm{F}_{L^{2}(Q)}, \mathcal{F}, L^{2}(Q))} \,\d \eps , \]
+where $\log \sup_{Q} N(\eps\norm{F}_{L^{2}(Q)}, \mathcal{F}, L^{2}(Q))$ is called the \textbf{uniform entropy}.
+
+\begin{Theo}[19.13 in \cite{vdVaart1998asymptotic}; 8.14 in \cite{Kosorok2008Introduction}]
+A $P$-measurable class $\mathcal{F}$ of functions is $P$-Glivenko-Cantelli if $P^{*}F < \infty$ and $\sup_{Q} N(\eps\norm{F}_{L^{1}(Q)},\mathcal{F},L^{1}(Q)) < \infty \ (\forall \eps > 0)$.
+\end{Theo}
+
+\begin{Theo}[19.14 in \cite{vdVaart1998asymptotic}; 8.19 in \cite{Kosorok2008Introduction}]
+A $P$-measurable class $\mathcal{F}$ of functions is $P$-Donsker if $P^{*}F^{2} < \infty$ and $J(1,\mathcal{F},L^{2}) < \infty$.
+\end{Theo}
+
+Here $\mathcal{F}$ is said to be $P$-measurable if $(x_{1},\dots,x_{n}) \mapsto \sup_{f\in\mathcal{F}} \abs{\sum_{i=1}^{n}e_{i}f(x_{i})}$ is measurable for every constant vector $(e_{1},\dots,e_{n}) \in \R^{n}$. 
+The so called $P$-measurability of $\mathcal{F}$ is used to deduce the measurability of $\norm{P_{n}^{\circ}}_{\mathcal{F}} = \sup_{f\in\mathcal{F}} \abs{P_{n}^{\circ}f}$, where 
+$ P_{n}^{\circ} f = \frac{1}{n} \sum_{i=1}^{n} \eps_{i} f(X_{i}) $
+for i.i.d.\ Rademacher random variables $\eps_{i}$ such that $\P\{ \eps_{i} = 1 \} = \P\{ \eps_{i} = -1 \} = 1/2$ and $\eps_{i}$'s are independent of $X_{i}$'s.
+
+\begin{Lemma}[Exercise 8.5.6 of \cite{Kosorok2008Introduction}]
+A class $\mathcal{F}$ of measurable functions is $P$-measurable for all $P$, if $\mathcal{F}$ is \emph{pointwise measurable} in the sense: there exists a countable subset $\mathcal{G} \subset \mathcal{F}$ such that for every $f \in \mathcal{F}$, there exists a sequence $g_{m} \in \mathcal{G}$ with $g_{m} \to f$ pointwise as $m \to \infty$.
+\end{Lemma}
+
+
+A collection $\mathcal{C}$ of subsets of $\mathcal{X}$ is said to \textbf{pick out} a subset $A \subset \{x_{1},\dots,x_{n}\} \subset \mathcal{X}$ if $A = \{x_{1},\dots,x_{n}\} \cap C$ for some $C \in \mathcal{C}$. If all $2^{n}$ subsets of $\{x_{1},\dots,x_{n}\}$ can be picked out by $\mathcal{C}$, then $\mathcal{C}$ is said to \textbf{shatter} $\{x_{1},\dots,x_{n}\}$. The \textbf{Vapnik-Chervonenkis (VC) index} $V(\mathcal{C})$ of $\mathcal{C}$ is defined as the smallest $n$ such that no set of size $n$ is shattered by $\mathcal{C}$. A \textbf{VC class} is a collection $\mathcal{C}$ with $V(\mathcal{C}) < \infty$.
+A class $\mathcal{F}$ of functions $f : \mathcal{X} \to \R$ is called \textbf{VC} if all the \textbf{subgraphs}, $\{ (x,t) : t<f(x) \}, \ f \in \mathcal{F}$, form a VC class of sets in $\mathcal{X} \times \R$.
+\begin{remark}
+A collection $\mathcal{C}$ of sets is a VC class if and only if $\{\1_{C}:C\in\mathcal{C}\}$ is VC.
+\end{remark}
+
+\begin{Lemma}[Vapnik and Chervonenkis (\href{https://doi.org/10.1007/978-3-319-21852-6_3}{1971}); Sauer (\href{https://doi.org/10.1016/0097-3165(72)90019-2}{1972}); Shelah (\href{https://projecteuclid.org/journals/pacific-journal-of-mathematics/volume-41/issue-1/A-combinatorial-problem-stability-and-order-for-models-and-theories/pjm/1102968432.full}{1972}); Prop.\ 4.18 in \cite{Wainwright2019high}]
+Let $\mathcal{C}$ be a set class. For any $n \geq V(\mathcal{C})$, we have 
+$\#\{ C\cap\{x_{1},\dots,x_{n}\} : C\in\mathcal{C} \} \leq \sum_{k=0}^{V(\mathcal{C})-1} \binom{n}{k} \leq (\frac{\e n}{V(\mathcal{C})-1})^{{V(\mathcal{C})-1}}$.
+\begin{remark}
+Only a polynomial number $O(n^{{V(\mathcal{C})-1}}) \ll 2^{n}-1$ of subsets can be picked out.
+\end{remark}
+\end{Lemma}
+
+\begin{Lemma}[19.15 in \cite{vdVaart1998asymptotic}]
+There exists a universal constant $K \in (0,\infty)$ such that for any function class $\mathcal{F}$, any $r \geq 1$ and $\eps \in (0,1)$, we have 
+$ \sup_{Q} N(\eps\norm{F}_{L^{r}(Q)},\mathcal{F},L^{r}(Q)) \leq K V(\mathcal{F}) (16\e)^{V(\mathcal{F})} (1/\eps)^{r(V(\mathcal{F})-1)} $. \footnote{For a proof, see Section 2.6.2 of \cite{vdVaart-Wellner-1996-Weak}.}
+\begin{remark}
+VC classes have covering numbers bounded by a polynomial in $1/\eps$, and thus are relatively small.
+\end{remark}
+\end{Lemma}
+
+
+\chapter{\bf Topological Space \sf\scriptsize (2021/3/24)}
+The notions of shattering and VC index are illustrated with some examples:
+\begin{itemize}
+	\item (19.16 in \cite{vdVaart1998asymptotic}; 4.17 in \cite{Wainwright2019high})
+The collection $\mathcal{C}_{]}$ of cells $(-\infty,t]$ in $\R$ is a VC class with index $V(\mathcal{C}_{]}) = 2$. 
+	\item (19.17 in \cite{vdVaart1998asymptotic}; 9.6 in \cite{Kosorok2008Introduction})
+The set $\mathcal{F}_{k} = \vspan{f_{1}, \dots, f_{k}}$ of linear combinations $\sum_{i=1}^{k} \lambda_{i} f_{i} \ (\lambda_{i}\in\R)$ of given functions $f_{1}, \dots, f_{k}$ on $\mathcal{X}$ is a VC class with index $V(\mathcal{F}_{k}) \leq k + 2$. 
+\end{itemize}
+See also Exercises 4.12--4.17 of \cite{Wainwright2019high}.
+
+A number of operations allow to build new classes out of known classes, preserving some property of interest. The \textbf{preservation results} demonstrate the stability of corresponding properties.
+
+\begin{Lemma}[9.7 in \cite{Kosorok2008Introduction}]
+Let $\mathcal{C}$ and $\mathcal{D}$ be VC classes of sets in $\mathcal{X}$, $\mathcal{E}$ be a VC class of sets in $\mathcal{W}$, and $\phi : \mathcal{X} \to \mathcal{Y}$ and $\psi : \mathcal{Z} \to \mathcal{X}$ be fixed functions. Then
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\item $\mathcal{C}^{\complement} = \{ C^{\complement} : C \in \mathcal{C} \}$ is VC with $V(\mathcal{C}^{\complement}) = V(\mathcal{C})$;
+\item $\mathcal{C} \sqcap \mathcal{D} = \{ C \cap D : C \in \mathcal{C}, D \in \mathcal{D} \}$ is VC with $V(\mathcal{C} \sqcap \mathcal{D}) \leq V(\mathcal{C}) + V(\mathcal{D}) - 1$;
+\item $\mathcal{C} \sqcup \mathcal{D} = \{ C \cup D : C \in \mathcal{C}, D \in \mathcal{D} \}$ is VC with $V(\mathcal{C} \sqcup \mathcal{D}) \leq V(\mathcal{C}) + V(\mathcal{D}) - 1$;
+\item $\mathcal{D} \times \mathcal{E} = \{ D \times E : D \in \mathcal{D}, E \in \mathcal{E} \}$ is VC in $\mathcal{X} \times \mathcal{W}$ with $V(\mathcal{D} \times \mathcal{E}) \leq V(\mathcal{D}) + V(\mathcal{E}) - 1$;
+\item $\phi(\mathcal{C}) = \{ \phi(C) : C \in \mathcal{C} \}$ is VC in $\mathcal{Y}$ with $V(\phi(\mathcal{C})) = V(\mathcal{C})$ if $\phi$ is one-to-one;
+\item $\psi^{-1}(\mathcal{C}) = \{ \psi^{-1}(C) : C \in \mathcal{C} \}$ is VC in $\mathcal{Z}$ with $V(\psi^{-1}(\mathcal{C})) \leq V(\mathcal{C})$.
+\end{itemize}
+\end{Lemma}
+
+\begin{Lemma}[9.9 in \cite{Kosorok2008Introduction}]
+Let $\mathcal{F}$ and $\mathcal{G}$ be VC classes of functions on a set $\mathcal{X}$, with respective VC indices induced by their subgraphs, and $h : \mathcal{X} \to \R$, $\phi : \R \to \R$, and
+$\psi : \mathcal{Z} \to \mathcal{X}$ be fixed functions. Then
+\begin{itemize}
+\setlength{\itemsep}{0pt}
+\item $\mathcal{F} \wedge \mathcal{G} = \{ f \wedge g : f \in \mathcal{F}, g \in \mathcal{G} \}$ is VC with $V(\mathcal{F} \wedge \mathcal{G}) \leq V(\mathcal{F}) + V(\mathcal{G}) - 1$;
+\item $\mathcal{F} \vee \mathcal{G} = \{ f \vee g : f \in \mathcal{F}, g \in \mathcal{G} \}$ is VC with $V(\mathcal{F} \vee \mathcal{G}) \leq V(\mathcal{F}) + V(\mathcal{G}) - 1$;
+\item $\{\mathcal{F} > 0\} = \{ \{f > 0\} : f \in \mathcal{F} \}$ is a VC class of sets with $V(\{\mathcal{F} > 0\}) = V(\mathcal{F})$;
+\item $-\mathcal{F} = \{-f:f\in\mathcal{F}\}$ is VC with $V(-\mathcal{F}) = V(\mathcal{F})$;
+\item $\mathcal{F} + h = \{ f + h : f \in \mathcal{F} \}$ is VC with $V(\mathcal{F}+h) = V(\mathcal{F}$);
+\item $\mathcal{F} \cdot h = \{ fh : f \in \mathcal{F} \}$ is VC with $V(\mathcal{F} \cdot h) \leq 2V(\mathcal{F}) - 1$;
+\item $\mathcal{F} \circ \psi = \{ f\circ\psi : f \in \mathcal{F} \}$ is VC with $V(\mathcal{F} \circ \psi) \leq V(\mathcal{F})$;
+\item $\phi \circ \mathcal{F} = \{ \phi \circ f : f \in \mathcal{F} \}$ is VC with $V(\phi\circ\mathcal{F}) \leq V(\mathcal{F})$ for monotone $\phi$.
+\end{itemize}
+\end{Lemma}
+\end{document}
+
+
+
